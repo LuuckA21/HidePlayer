@@ -1,0 +1,11 @@
+prefix: "&7[&6HidePlayer&7] "
+reload: "&aPlugin reload!"
+
+# Error
+no-perm: "&cYou do not have permission to run this command"
+no-console: "&cOnly players can run this command"
+cooldown: "&cYou must wait &e%time%s &cbetween uses!"
+
+# Messages
+hideall: "&cPlayer visibility disabled!"
+showall: "&aPlayer visibility enabled!"

@@ -1,0 +1,25 @@
+name: HidePlayer
+version: ${project.version}
+main: me.luucka.hideplayer.HidePlayer
+api-version: 1.16
+authors: [ LuuckA ]
+description: Hide and Show player
+commands:
+  hideplayer:
+    description: Reload plugin
+  hideall:
+    description: Hideall
+  showall:
+    description: Showall
+permissions:
+  hideplayer.*:
+    default: op
+    children:
+      hideplayer.reload: true
+      hideplayer.cooldown: true
+  hideplayer.reload:
+    default: false
+    description: Reload plugin
+  hideplayer.cooldown:
+    default: false
+    description: Bypass cooldown

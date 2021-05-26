@@ -9,3 +9,4 @@ cooldown: "&cYou must wait &e%time%s &cbetween uses!"
 # Messages
 hideall: "&cPlayer visibility disabled!"
 showall: "&aPlayer visibility enabled!"
+add-player: "&aYou added &6%player% &ato your keepvisibile list"

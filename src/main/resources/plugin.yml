@@ -11,6 +11,8 @@ commands:
     description: Hideall
   showall:
     description: Showall
+  keepvisible:
+    description: Keepvisible
 permissions:
   hideplayer.*:
     default: op

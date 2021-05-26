@@ -2,6 +2,7 @@ package me.luucka.hideplayer;
 
 import lombok.Getter;
 import me.luucka.hideplayer.commands.CmdHide;
+import me.luucka.hideplayer.commands.CmdKeepvisible;
 import me.luucka.hideplayer.commands.CmdReload;
 import me.luucka.hideplayer.commands.CmdShow;
 import me.luucka.hideplayer.files.FileManager;
@@ -25,7 +26,7 @@ public final class HidePlayer extends JavaPlugin {
     private FileManager dataYml;
 
     @Getter
-    private final Map<UUID, Long> cooldowns = new HashMap<>();
+    private final Map<UUID, Long> cooldown = new HashMap<>();
 
     @Override
     public void onEnable() {
@@ -49,6 +50,7 @@ public final class HidePlayer extends JavaPlugin {
         getCommand("hideplayer").setExecutor(new CmdReload());
         getCommand("hideall").setExecutor(new CmdHide());
         getCommand("showall").setExecutor(new CmdShow());
+        getCommand("keepvisible").setExecutor(new CmdKeepvisible());
     }
 
     private void registerListeners() {
@@ -75,15 +77,15 @@ public final class HidePlayer extends JavaPlugin {
         if (player.hasPermission("hideplayer.cooldown")) {
             return true;
         }
-        if (getCooldowns().containsKey(player.getUniqueId())) {
-            if (getCooldowns().get(player.getUniqueId()) > System.currentTimeMillis()) {
+        if (getCooldown().containsKey(player.getUniqueId())) {
+            if (getCooldown().get(player.getUniqueId()) > System.currentTimeMillis()) {
                 player.sendMessage(ChatUtils.message(getMessagesYml().getConfig().getString("cooldown")
                         .replace("%time%", getConfig().getString("cooldown"))));
                 return false;
             }
-            getCooldowns().remove(player.getUniqueId());
+            getCooldown().remove(player.getUniqueId());
         }
-        getCooldowns().put(player.getUniqueId(), System.currentTimeMillis() + (getConfig().getInt("cooldown") * 1000));
+        getCooldown().put(player.getUniqueId(), System.currentTimeMillis() + (getConfig().getInt("cooldown") * 1000));
         return true;
     }
 }

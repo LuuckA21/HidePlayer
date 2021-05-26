@@ -23,7 +23,6 @@ public class PlayerListeners implements Listener {
 
         // Data.yml
         if (!HidePlayer.getPlugin().getDataYml().getConfig().contains(player.getUniqueId().toString())) {
-            System.out.println("CREAZIONEEE");
             HidePlayer.getPlugin().getDataYml().getConfig().set(player.getUniqueId() + ".visible", true);
             HidePlayer.getPlugin().getDataYml().saveConfig();
         }

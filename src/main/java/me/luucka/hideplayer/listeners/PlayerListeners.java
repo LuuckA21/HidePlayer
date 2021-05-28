@@ -34,7 +34,7 @@ public class PlayerListeners implements Listener {
             if (HidePlayer.getPlugin().getDataYml().getConfig().getBoolean(player.getUniqueId() + ".visible")) {
                 player.getInventory().setItem(6, ItemManager.giveShowItem());
             } else {
-                HidePlayer.getPlugin().hidePlayers(player);
+                HidePlayer.getPlugin().getPlayerManager().hidePlayers(player);
                 player.getInventory().setItem(6, ItemManager.giveHideItem());
             }
         }

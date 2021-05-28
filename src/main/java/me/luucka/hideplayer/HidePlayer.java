@@ -20,6 +20,8 @@ public final class HidePlayer extends JavaPlugin {
     @Getter
     private static HidePlayer plugin;
 
+    @Getter private final PlayerManager playerManager = new PlayerManager();
+
     @Getter
     private FileManager messagesYml;
     @Getter
@@ -61,16 +63,6 @@ public final class HidePlayer extends JavaPlugin {
         reloadConfig();
         messagesYml.reloadConfig();
         dataYml.reloadConfig();
-    }
-
-    public void showPlayers(Player player) {
-        getServer().getOnlinePlayers().forEach(p -> player.showPlayer(this, p));
-        //Keepvisible TODO
-    }
-
-    public void hidePlayers(Player player) {
-        getServer().getOnlinePlayers().forEach(p -> player.hidePlayer(this, p));
-        //Keepvisible TODO
     }
 
     public boolean cooldownManager(Player player) {

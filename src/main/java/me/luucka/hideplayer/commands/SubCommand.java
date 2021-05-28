@@ -2,6 +2,7 @@ package me.luucka.hideplayer.commands;
 
 import lombok.Getter;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,6 @@ public abstract class SubCommand {
 
     public abstract void perform(CommandSender sender, String[] args);
 
-    public abstract List<String> getSubcommandArgs(CommandSender sender, String[] args);
+    public abstract List<String> getSubcommandArgs(Player player, String[] args);
 
 }

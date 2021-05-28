@@ -3,6 +3,8 @@ package me.luucka.hideplayer.commands;
 import lombok.Getter;
 import me.luucka.hideplayer.HidePlayer;
 import me.luucka.hideplayer.commands.subcommands.SubCmdKeepvisibleAdd;
+import me.luucka.hideplayer.commands.subcommands.SubCmdKeepvisibleRemove;
+import me.luucka.hideplayer.commands.subcommands.SubCmdKeepvisibleReset;
 import me.luucka.hideplayer.utility.ChatUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -19,6 +21,8 @@ public class CmdKeepvisible implements TabExecutor {
 
     public CmdKeepvisible() {
         subCommands.add(new SubCmdKeepvisibleAdd());
+        subCommands.add(new SubCmdKeepvisibleRemove());
+        subCommands.add(new SubCmdKeepvisibleReset());
     }
 
     @Override
@@ -65,7 +69,14 @@ public class CmdKeepvisible implements TabExecutor {
                 suggestions.add(subCmd.getName());
             });
             return suggestions;
+        } else if (args.length == 2) {
+            for (SubCommand subCmd : subCommands) {
+                if (args[0].equalsIgnoreCase(subCmd.getName())) {
+                    return subCmd.getSubcommandArgs((Player) sender, args);
+                }
+            }
         }
+
         return null;
     }
 }

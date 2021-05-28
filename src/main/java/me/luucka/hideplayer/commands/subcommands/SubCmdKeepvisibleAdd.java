@@ -6,7 +6,6 @@ import me.luucka.hideplayer.utility.ChatUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class SubCmdKeepvisibleAdd extends SubCommand {
@@ -40,21 +39,40 @@ public class SubCmdKeepvisibleAdd extends SubCommand {
     public void perform(CommandSender sender, String[] args) {
         Player player = (Player) sender;
 
-        Player target = HidePlayer.getPlugin().getServer().getPlayerExact(args[1]);
-        if (target == null) {
-            sender.sendMessage(ChatUtils.message("&cPlayer not found"));
+        if (args.length < 2) {
+            player.sendMessage(ChatUtils.message("&cUsage: " + getSyntax()));
             return;
         }
 
-        // ADD
-        HidePlayer.getPlugin().getDataYml().getConfig().set(player.getUniqueId() + ".keepvisible", Arrays.asList(target.getUniqueId().toString()));
+        // Check if target exists
+        Player target = HidePlayer.getPlugin().getServer().getPlayerExact(args[1]);
+        if (target == null) {
+            player.sendMessage(ChatUtils.message(HidePlayer.getPlugin().getMessagesYml().getConfig().getString("player-not-found")));
+            return;
+        }
+
+        // Check if you target yourself
+        //if (target.getName().equalsIgnoreCase(player.getName())) {
+        //    player.sendMessage(ChatUtils.message(HidePlayer.getPlugin().getMessagesYml().getConfig().getString("add-yourself")));
+        //    return;
+        //}
+
+        // Add target to your personal keepvisible list
+        List<String> myList = HidePlayer.getPlugin().getDataYml().getConfig().getStringList(player.getUniqueId() + ".keepvisible");
+        if (myList.contains(target.getUniqueId().toString())) {
+            player.sendMessage(ChatUtils.message(HidePlayer.getPlugin().getMessagesYml().getConfig().getString("already-added")
+                    .replace("%player%", target.getDisplayName())));
+            return;
+        }
+        myList.add(target.getUniqueId().toString());
+        HidePlayer.getPlugin().getDataYml().getConfig().set(player.getUniqueId() + ".keepvisible", myList);
         HidePlayer.getPlugin().getDataYml().saveConfig();
         player.sendMessage(ChatUtils.message(HidePlayer.getPlugin().getMessagesYml().getConfig().getString("add-player")
                 .replace("%player%", target.getDisplayName())));
     }
 
     @Override
-    public List<String> getSubcommandArgs(CommandSender sender, String[] args) {
+    public List<String> getSubcommandArgs(Player player, String[] args) {
         return null;
     }
 }

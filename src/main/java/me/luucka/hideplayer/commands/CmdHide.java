@@ -18,7 +18,7 @@ public class CmdHide implements CommandExecutor {
         }
         Player player = (Player) sender;
 
-        HidePlayer.getPlugin().hidePlayers(player);
+        HidePlayer.getPlugin().getPlayerManager().hidePlayers(player);
         player.sendMessage(ChatUtils.message(HidePlayer.getPlugin().getMessagesYml().getConfig().getString("hideall")));
 
         HidePlayer.getPlugin().getDataYml().getConfig().set(player.getUniqueId() + ".visible", false);

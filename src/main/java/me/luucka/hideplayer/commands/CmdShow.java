@@ -18,7 +18,7 @@ public class CmdShow implements CommandExecutor {
         }
         Player player = (Player) sender;
 
-        HidePlayer.getPlugin().showPlayers(player);
+        HidePlayer.getPlugin().getPlayerManager().showPlayers(player);
         player.sendMessage(ChatUtils.message(HidePlayer.getPlugin().getMessagesYml().getConfig().getString("showall")));
 
         HidePlayer.getPlugin().getDataYml().getConfig().set(player.getUniqueId() + ".visible", true);

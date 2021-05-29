@@ -1,6 +1,8 @@
 package me.luucka.hideplayer.commands.subcommands;
 
 import me.luucka.hideplayer.HidePlayer;
+import me.luucka.hideplayer.HidePlayerUser;
+import me.luucka.hideplayer.PlayerVisibilityManager;
 import me.luucka.hideplayer.commands.SubCommand;
 import me.luucka.hideplayer.utility.ChatUtils;
 import org.bukkit.command.CommandSender;
@@ -39,8 +41,9 @@ public class SubCmdKeepvisibleReset extends SubCommand {
     public void perform(CommandSender sender, String[] args) {
         Player player = (Player) sender;
 
-        HidePlayer.getPlugin().getDataYml().getConfig().set(player.getUniqueId() + ".keepvisible", null);
-        HidePlayer.getPlugin().getDataYml().saveConfig();
+        HidePlayerUser user = new HidePlayerUser(player);
+        user.resetKeepvisiblePlayer();
+        PlayerVisibilityManager.hidePlayers(player);
         player.sendMessage(ChatUtils.message(HidePlayer.getPlugin().getMessagesYml().getConfig().getString("reset-list")));
     }
 

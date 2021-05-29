@@ -1,6 +1,8 @@
 package me.luucka.hideplayer.commands.subcommands;
 
 import me.luucka.hideplayer.HidePlayer;
+import me.luucka.hideplayer.HidePlayerUser;
+import me.luucka.hideplayer.PlayerVisibilityManager;
 import me.luucka.hideplayer.commands.SubCommand;
 import me.luucka.hideplayer.utility.ChatUtils;
 import org.bukkit.OfflinePlayer;
@@ -45,26 +47,27 @@ public class SubCmdKeepvisibleRemove extends SubCommand {
             return;
         }
 
+        HidePlayerUser user = new HidePlayerUser(player);
+
         // Create List<OfflinePlayer> from UUID in keepvisible personal list
         List<OfflinePlayer> offlinePlayerList = new ArrayList<>();
-        List<String> uuids = HidePlayer.getPlugin().getDataYml().getConfig().getStringList(player.getUniqueId() + ".keepvisible");
+        List<String> uuids = user.getKeepvisibleList();
         uuids.forEach(uuid -> {
             offlinePlayerList.add(HidePlayer.getPlugin().getServer().getOfflinePlayer(UUID.fromString(uuid)));
         });
 
-        Map<String, String> nameUuid = new HashMap<>();
+        Map<String, String> nameUUID = new HashMap<>();
         offlinePlayerList.forEach(offlinePlayer -> {
-            nameUuid.put(offlinePlayer.getName().toLowerCase(), offlinePlayer.getUniqueId().toString());
+            nameUUID.put(offlinePlayer.getName().toLowerCase(), offlinePlayer.getUniqueId().toString());
         });
 
-        if (!nameUuid.containsKey(args[1].toLowerCase())) {
+        if (!nameUUID.containsKey(args[1].toLowerCase())) {
             player.sendMessage(ChatUtils.message(HidePlayer.getPlugin().getMessagesYml().getConfig().getString("player-not-in-list")));
             return;
         }
 
-        uuids.remove(nameUuid.get(args[1].toLowerCase()));
-        HidePlayer.getPlugin().getDataYml().getConfig().set(player.getUniqueId() + ".keepvisible", uuids);
-        HidePlayer.getPlugin().getDataYml().saveConfig();
+        user.removeKeepvisiblePlayer(UUID.fromString(nameUUID.get(args[1].toLowerCase())));
+        PlayerVisibilityManager.hidePlayers(player);
         player.sendMessage(ChatUtils.message(HidePlayer.getPlugin().getMessagesYml().getConfig().getString("remove-player")
                 .replace("%player%", args[1])));
     }
@@ -72,14 +75,12 @@ public class SubCmdKeepvisibleRemove extends SubCommand {
     @Override
     public List<String> getSubcommandArgs(Player player, String[] args) {
         if (args.length == 2) {
+            HidePlayerUser user = new HidePlayerUser(player);
             List<String> suggestions = new ArrayList<>();
 
-            List<OfflinePlayer> offlinePlayerList = new ArrayList<>();
-            HidePlayer.getPlugin().getDataYml().getConfig().getStringList(player.getUniqueId() + ".keepvisible").forEach(uuid -> {
-                offlinePlayerList.add(HidePlayer.getPlugin().getServer().getOfflinePlayer(UUID.fromString(uuid)));
+            user.getKeepvisibleList().forEach(uuid -> {
+                suggestions.add(HidePlayer.getPlugin().getServer().getOfflinePlayer(UUID.fromString(uuid)).getName());
             });
-
-            offlinePlayerList.forEach(op -> suggestions.add(op.getName()));
             return suggestions;
         }
         return null;

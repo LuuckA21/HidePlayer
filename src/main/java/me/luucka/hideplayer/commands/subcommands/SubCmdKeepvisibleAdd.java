@@ -1,6 +1,7 @@
 package me.luucka.hideplayer.commands.subcommands;
 
 import me.luucka.hideplayer.HidePlayer;
+import me.luucka.hideplayer.HidePlayerUser;
 import me.luucka.hideplayer.commands.SubCommand;
 import me.luucka.hideplayer.utility.ChatUtils;
 import org.bukkit.command.CommandSender;
@@ -52,21 +53,20 @@ public class SubCmdKeepvisibleAdd extends SubCommand {
         }
 
         // Check if you target yourself
-        //if (target.getName().equalsIgnoreCase(player.getName())) {
-        //    player.sendMessage(ChatUtils.message(HidePlayer.getPlugin().getMessagesYml().getConfig().getString("add-yourself")));
-        //    return;
-        //}
+        if (target.getName().equalsIgnoreCase(player.getName())) {
+            player.sendMessage(ChatUtils.message(HidePlayer.getPlugin().getMessagesYml().getConfig().getString("add-yourself")));
+            return;
+        }
 
-        // Add target to your personal keepvisible list
-        List<String> myList = HidePlayer.getPlugin().getDataYml().getConfig().getStringList(player.getUniqueId() + ".keepvisible");
-        if (myList.contains(target.getUniqueId().toString())) {
+        HidePlayerUser user = new HidePlayerUser(player);
+
+        if (user.isPlayerInKeepvisibleList(target.getUniqueId())) {
             player.sendMessage(ChatUtils.message(HidePlayer.getPlugin().getMessagesYml().getConfig().getString("already-added")
                     .replace("%player%", target.getDisplayName())));
             return;
         }
-        myList.add(target.getUniqueId().toString());
-        HidePlayer.getPlugin().getDataYml().getConfig().set(player.getUniqueId() + ".keepvisible", myList);
-        HidePlayer.getPlugin().getDataYml().saveConfig();
+
+        user.addKeepvisiblePlayer(target.getUniqueId());
         player.sendMessage(ChatUtils.message(HidePlayer.getPlugin().getMessagesYml().getConfig().getString("add-player")
                 .replace("%player%", target.getDisplayName())));
     }

@@ -1,30 +1,48 @@
 package me.luucka.hideplayer;
 
+import com.zaxxer.hikari.HikariDataSource;
 import lombok.Getter;
+import lombok.Setter;
 import me.luucka.hideplayer.commands.CmdHide;
 import me.luucka.hideplayer.commands.CmdKeepvisible;
 import me.luucka.hideplayer.commands.CmdReload;
 import me.luucka.hideplayer.commands.CmdShow;
 import me.luucka.hideplayer.files.FileManager;
 import me.luucka.hideplayer.listeners.PlayerListeners;
+import me.luucka.hideplayer.storage.SQLManager;
+import me.luucka.hideplayer.storage.StorageManager;
 import me.luucka.hideplayer.utility.ChatUtils;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.logging.Level;
 
 public final class HidePlayer extends JavaPlugin {
 
     @Getter
     private static HidePlayer plugin;
 
-    @Getter private final PlayerManager playerManager = new PlayerManager();
+    @Getter
+    private final PlayerVisibilityManager playerVisibilityManager = new PlayerVisibilityManager();
+
+    // Database / Storage
+    //------------------------------------------------------------------------------------------------------------------
+
+    @Getter @Setter private HikariDataSource hikari;
+
+
+    // Files
+    //------------------------------------------------------------------------------------------------------------------
 
     @Getter
     private FileManager messagesYml;
+
     @Getter
+    @Setter
     private FileManager dataYml;
 
     @Getter
@@ -35,14 +53,22 @@ public final class HidePlayer extends JavaPlugin {
         plugin = this;
         saveDefaultConfig();
         messagesYml = new FileManager("messages");
-        dataYml = new FileManager("data");
         registerCommands();
         registerListeners();
+        StorageManager.setStorageType();
+        if (hikari != null) {
+            getLogger().log(Level.INFO,
+                    ChatColor.translateAlternateColorCodes('&', "&aDatabase connected successfully! ("
+                            + StorageManager.getStorageType() + ")"));
+            SQLManager.init();
+        }
     }
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        if (hikari != null) {
+            hikari.close();
+        }
     }
 
     // Register Commands / Listener

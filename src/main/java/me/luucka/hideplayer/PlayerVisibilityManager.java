@@ -4,16 +4,18 @@ import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
-public class PlayerManager {
+public class PlayerVisibilityManager {
 
-    public void showPlayers(Player player) {
+    public static void showPlayers(Player player) {
         HidePlayer.getPlugin().getServer().getOnlinePlayers().forEach(p -> player.showPlayer(HidePlayer.getPlugin(), p));
     }
 
-    public void hidePlayers(Player player) {
+    public static void hidePlayers(Player player) {
         HidePlayer.getPlugin().getServer().getOnlinePlayers().forEach(p -> player.hidePlayer(HidePlayer.getPlugin(), p));
 
-        HidePlayer.getPlugin().getDataYml().getConfig().getStringList(player.getUniqueId() + ".keepvisible").forEach(uuid -> {
+        HidePlayerUser user = new HidePlayerUser(player);
+
+        user.getKeepvisibleList().forEach(uuid -> {
             Player keepPlayer = HidePlayer.getPlugin().getServer().getPlayer(UUID.fromString(uuid));
             if (keepPlayer != null) {
                 player.showPlayer(HidePlayer.getPlugin(), keepPlayer);

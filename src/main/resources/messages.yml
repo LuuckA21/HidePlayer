@@ -6,7 +6,7 @@ no-perm: "&cYou do not have permission to run this command"
 no-console: "&cOnly players can run this command"
 player-not-found: "&cPlayer not found"
 add-yourself: "&cYou can not add yourself"
-already-added: "You already added &6%player% &cin your keepvisible list"
+already-added: "&cYou already added &6%player% &cin your keepvisible list"
 player-not-in-list: "&cThis player is not in your keepvisible list"
 cooldown: "&cYou must wait &e%time%s &cbetween uses!"
 

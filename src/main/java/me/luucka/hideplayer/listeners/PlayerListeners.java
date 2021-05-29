@@ -1,8 +1,9 @@
 package me.luucka.hideplayer.listeners;
 
 import me.luucka.hideplayer.HidePlayer;
+import me.luucka.hideplayer.HidePlayerUser;
+import me.luucka.hideplayer.PlayerVisibilityManager;
 import me.luucka.hideplayer.items.ItemManager;
-import me.luucka.hideplayer.utility.ChatUtils;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -21,20 +22,17 @@ public class PlayerListeners implements Listener {
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
 
-        // Data.yml
-        if (!HidePlayer.getPlugin().getDataYml().getConfig().contains(player.getUniqueId().toString())) {
-            HidePlayer.getPlugin().getDataYml().getConfig().set(player.getUniqueId() + ".visible", true);
-            HidePlayer.getPlugin().getDataYml().saveConfig();
-        }
+        HidePlayerUser user = new HidePlayerUser(player);
+        user.createUser();
 
         // Add item
         if (HidePlayer.getPlugin().getConfig().getBoolean("default-state-show")) {
             player.getInventory().setItem(6, ItemManager.giveShowItem());
         } else {
-            if (HidePlayer.getPlugin().getDataYml().getConfig().getBoolean(player.getUniqueId() + ".visible")) {
+            if (user.getVisible()) {
                 player.getInventory().setItem(6, ItemManager.giveShowItem());
             } else {
-                HidePlayer.getPlugin().getPlayerManager().hidePlayers(player);
+                PlayerVisibilityManager.hidePlayers(player);
                 player.getInventory().setItem(6, ItemManager.giveHideItem());
             }
         }
@@ -49,19 +47,17 @@ public class PlayerListeners implements Listener {
         Player player = event.getPlayer();
         ItemStack item = player.getInventory().getItemInMainHand();
         ItemMeta meta = item.getItemMeta();
-
+        if (meta == null) {
+            return;
+        }
         NamespacedKey key = new NamespacedKey(HidePlayer.getPlugin(), "status");
         PersistentDataContainer container = meta.getPersistentDataContainer();
         if (container.has(key, PersistentDataType.STRING)) {
             String sKey = container.get(key, PersistentDataType.STRING);
             if (sKey.equals("SHOW")) {
-                if (HidePlayer.getPlugin().cooldownManager(player)) {
-                    player.performCommand("hideall");
-                }
+                player.performCommand("hideall");
             } else if (sKey.equals("HIDE")) {
-                if (HidePlayer.getPlugin().cooldownManager(player)) {
-                    player.performCommand("showall");
-                }
+                player.performCommand("showall");
             }
         }
     }

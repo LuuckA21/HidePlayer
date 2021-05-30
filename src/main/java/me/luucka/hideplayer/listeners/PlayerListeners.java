@@ -3,7 +3,6 @@ package me.luucka.hideplayer.listeners;
 import me.luucka.hideplayer.HidePlayer;
 import me.luucka.hideplayer.HidePlayerUser;
 import me.luucka.hideplayer.PlayerVisibilityManager;
-import me.luucka.hideplayer.items.ItemManager;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -25,15 +24,20 @@ public class PlayerListeners implements Listener {
         HidePlayerUser user = new HidePlayerUser(player);
         user.createUser();
 
-        // Add item
-        if (HidePlayer.getPlugin().getConfig().getBoolean("default-state-show")) {
-            player.getInventory().setItem(6, ItemManager.giveShowItem());
-        } else {
+        if (HidePlayer.getPlugin().getConfig().getBoolean("use-visible-status-on-join")) {
             if (user.getVisible()) {
-                player.getInventory().setItem(6, ItemManager.giveShowItem());
+                if (HidePlayer.getPlugin().getConfig().getBoolean("item.enable")) {
+                    user.setShowItem();
+                }
             } else {
                 PlayerVisibilityManager.hidePlayers(player);
-                player.getInventory().setItem(6, ItemManager.giveHideItem());
+                if (HidePlayer.getPlugin().getConfig().getBoolean("item.enable")) {
+                    user.setHideItem();
+                }
+            }
+        } else {
+            if (HidePlayer.getPlugin().getConfig().getBoolean("item.enable")) {
+                user.setShowItem();
             }
         }
     }

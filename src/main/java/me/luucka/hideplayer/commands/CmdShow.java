@@ -3,7 +3,6 @@ package me.luucka.hideplayer.commands;
 import me.luucka.hideplayer.HidePlayer;
 import me.luucka.hideplayer.HidePlayerUser;
 import me.luucka.hideplayer.PlayerVisibilityManager;
-import me.luucka.hideplayer.items.ItemManager;
 import me.luucka.hideplayer.utility.ChatUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -32,11 +31,13 @@ public class CmdShow implements CommandExecutor {
         // Send messages to player
         player.sendMessage(ChatUtils.message(HidePlayer.getPlugin().getMessagesYml().getConfig().getString("showall")));
 
-        // Set visible status to false
+        // Set visible status to true
         HidePlayerUser user = new HidePlayerUser(player);
         user.setVisible(true);
 
-        player.getInventory().setItem(6, ItemManager.giveShowItem());
+        if (HidePlayer.getPlugin().getConfig().getBoolean("item.enable")) {
+            user.setShowItem();
+        }
         return true;
     }
 }

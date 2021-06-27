@@ -1,9 +1,10 @@
 # STORAGE
 # Storage types:
-#   yaml (default value)
+#   yaml (local file)
 #   sqlite (local file database)
+#   H2 (local file database) [default]
 #   mysql (change options below)
-storage-type: yaml
+storage-type: h2
 
 mysql:
   host: localhost

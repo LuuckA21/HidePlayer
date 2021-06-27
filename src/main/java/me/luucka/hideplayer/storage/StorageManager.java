@@ -35,10 +35,28 @@ public class StorageManager {
             config.setJdbcUrl("jdbc:sqlite:" + HidePlayer.getPlugin().getDataFolder().getAbsolutePath() + "/hideplayer.db");
             HidePlayer.getPlugin().setHikari(new HikariDataSource(config));
             usingDatabase = true;
-        } else {
+        } else if (storageType.equalsIgnoreCase("h2")) {
+            try {
+                Class.forName("org.h2.Driver");
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+            config.setJdbcUrl("jdbc:h2:" + HidePlayer.getPlugin().getDataFolder().getAbsolutePath() + "/hideplayer");
+            HidePlayer.getPlugin().setHikari(new HikariDataSource(config));
+            usingDatabase = true;
+        } else if (storageType.equalsIgnoreCase("yaml")){
             FileManager dataYml = new FileManager("data");
             HidePlayer.getPlugin().setDataYml(dataYml);
             usingDatabase = false;
+        } else {
+            try {
+                Class.forName("org.h2.Driver");
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+            config.setJdbcUrl("jdbc:h2:" + HidePlayer.getPlugin().getDataFolder().getAbsolutePath() + "/hideplayer");
+            HidePlayer.getPlugin().setHikari(new HikariDataSource(config));
+            usingDatabase = true;
         }
     }
 

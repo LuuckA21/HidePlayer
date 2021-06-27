@@ -1,5 +1,6 @@
 package me.luucka.hideplayer;
 
+import me.luucka.hideplayer.items.ItemManager;
 import me.luucka.hideplayer.storage.SQLManager;
 import me.luucka.hideplayer.storage.StorageManager;
 import me.luucka.hideplayer.storage.YAMLManager;
@@ -78,5 +79,13 @@ public class HidePlayerUser {
         } else {
             YAMLManager.resetKeepvisiblePlayer(player.getUniqueId());
         }
+    }
+
+    public void setShowItem() {
+        player.getInventory().setItem(HidePlayer.getPlugin().getConfig().getInt("item.slot"), ItemManager.giveShowItem());
+    }
+
+    public void setHideItem() {
+        player.getInventory().setItem(HidePlayer.getPlugin().getConfig().getInt("item.slot"), ItemManager.giveHideItem());
     }
 }

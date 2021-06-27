@@ -1,29 +1,32 @@
 # STORAGE
 # Storage types:
-#   yaml (default value)
+#   yaml (local file)
 #   sqlite (local file database)
+#   H2 (local file database) [default]
 #   mysql (change options below)
-storage-type: yaml
+storage-type: h2
 
 mysql:
   host: localhost
   port: 3306
-  database: coins
+  database: hideplayer
   username: root
   password: ""
 
 
 # Item
-slot: 6
-show:
-  material: LIME_DYE
-  name: "&7Players: &aVisible &7(Right-Click)"
-  lore: "&7Right-Click to toggle player visibility!"
-hide:
-  material: GRAY_DYE
-  name: "&7Players: &cHidden &7(Right-Click)"
-  lore: "&7Right-Click to toggle player visibility!"
+item:
+  enable: true
+  slot: 6
+  show:
+    material: LIME_DYE
+    name: "&7Players: &aVisible &7(Right-Click)"
+    lore: "&7Right-Click to toggle player visibility!"
+  hide:
+    material: GRAY_DYE
+    name: "&7Players: &cHidden &7(Right-Click)"
+    lore: "&7Right-Click to toggle player visibility!"
 
 # Other
-default-state-show: false
+use-visible-status-on-join: true
 cooldown: 3 #In second

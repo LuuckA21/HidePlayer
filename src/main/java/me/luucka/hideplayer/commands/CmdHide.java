@@ -3,7 +3,6 @@ package me.luucka.hideplayer.commands;
 import me.luucka.hideplayer.HidePlayer;
 import me.luucka.hideplayer.HidePlayerUser;
 import me.luucka.hideplayer.PlayerVisibilityManager;
-import me.luucka.hideplayer.items.ItemManager;
 import me.luucka.hideplayer.utility.ChatUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -36,7 +35,9 @@ public class CmdHide implements CommandExecutor {
         HidePlayerUser user = new HidePlayerUser(player);
         user.setVisible(false);
 
-        player.getInventory().setItem(6, ItemManager.giveHideItem());
+        if (HidePlayer.getPlugin().getConfig().getBoolean("item.enable")) {
+            user.setHideItem();
+        }
         return true;
     }
 }

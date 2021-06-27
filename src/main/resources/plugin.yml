@@ -4,6 +4,9 @@ main: me.luucka.hideplayer.HidePlayer
 api-version: 1.16
 authors: [ LuuckA ]
 description: Hide and Show player
+libraries:
+  - com.zaxxer:HikariCP:4.0.3
+  - com.h2database:h2:1.4.200
 commands:
   hideplayer:
     description: Reload plugin

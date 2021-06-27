@@ -2,7 +2,6 @@ package me.luucka.hideplayer.items;
 
 import me.luucka.hideplayer.HidePlayer;
 import me.luucka.hideplayer.utility.ChatUtils;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -15,12 +14,12 @@ import java.util.List;
 public class ItemManager {
 
     public static ItemStack giveShowItem() {
-        ItemStack item = new ItemStack(Material.matchMaterial(HidePlayer.getPlugin().getConfig().getString("show.material")));
+        ItemStack item = new ItemStack(Material.matchMaterial(HidePlayer.getPlugin().getConfig().getString("item.show.material")));
         ItemMeta meta = item.getItemMeta();
 
-        meta.setDisplayName(ChatUtils.hexColor(HidePlayer.getPlugin().getConfig().getString("show.name")));
+        meta.setDisplayName(ChatUtils.hexColor(HidePlayer.getPlugin().getConfig().getString("item.show.name")));
         List<String> lore = new ArrayList<>();
-        lore.add(ChatUtils.hexColor(HidePlayer.getPlugin().getConfig().getString("show.lore")));
+        lore.add(ChatUtils.hexColor(HidePlayer.getPlugin().getConfig().getString("item.show.lore")));
         meta.setLore(lore);
 
         NamespacedKey key = new NamespacedKey(HidePlayer.getPlugin(), "status");
@@ -32,12 +31,12 @@ public class ItemManager {
     }
 
     public static ItemStack giveHideItem() {
-        ItemStack item = new ItemStack(Material.matchMaterial(HidePlayer.getPlugin().getConfig().getString("hide.material")));
+        ItemStack item = new ItemStack(Material.matchMaterial(HidePlayer.getPlugin().getConfig().getString("item.hide.material")));
         ItemMeta meta = item.getItemMeta();
 
-        meta.setDisplayName(ChatUtils.hexColor(HidePlayer.getPlugin().getConfig().getString("hide.name")));
+        meta.setDisplayName(ChatUtils.hexColor(HidePlayer.getPlugin().getConfig().getString("item.hide.name")));
         List<String> lore = new ArrayList<>();
-        lore.add(ChatUtils.hexColor(HidePlayer.getPlugin().getConfig().getString("hide.lore")));
+        lore.add(ChatUtils.hexColor(HidePlayer.getPlugin().getConfig().getString("item.hide.lore")));
         meta.setLore(lore);
 
         NamespacedKey key = new NamespacedKey(HidePlayer.getPlugin(), "status");

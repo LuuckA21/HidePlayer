@@ -3,8 +3,8 @@ package me.luucka.hideplayer.commands.subcommands;
 import me.luucka.hideplayer.HidePlayer;
 import me.luucka.hideplayer.HidePlayerUser;
 import me.luucka.hideplayer.PlayerVisibilityManager;
-import me.luucka.hideplayer.commands.SubCommand;
 import me.luucka.hideplayer.utility.ChatUtils;
+import me.luucka.lcore.commands.SubCommand;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -14,27 +14,27 @@ import java.util.*;
 public class SubCmdKeepvisibleRemove extends SubCommand {
 
     @Override
-    public String getName() {
+    public String name() {
         return "remove";
     }
 
     @Override
-    public String getDescription() {
+    public String description() {
         return "Remove player from your Keepvisible list";
     }
 
     @Override
-    public String getSyntax() {
-        return "/keepvisible " + getName() + " <player>";
+    public String syntax() {
+        return "/keepvisible " + name() + " <player>";
     }
 
     @Override
-    public String getPermission() {
+    public String permission() {
         return null;
     }
 
     @Override
-    public boolean canOnlyPlayerUse() {
+    public boolean isOnlyPlayer() {
         return true;
     }
 
@@ -43,7 +43,7 @@ public class SubCmdKeepvisibleRemove extends SubCommand {
         Player player = (Player) sender;
 
         if (args.length < 2) {
-            player.sendMessage(ChatUtils.message("&cUsage: " + getSyntax()));
+            player.sendMessage(ChatUtils.message("&cUsage: " + syntax()));
             return;
         }
 
@@ -73,9 +73,9 @@ public class SubCmdKeepvisibleRemove extends SubCommand {
     }
 
     @Override
-    public List<String> getSubcommandArgs(Player player, String[] args) {
+    public List<String> getSubcommandArgs(CommandSender sender, String[] args) {
         if (args.length == 2) {
-            HidePlayerUser user = new HidePlayerUser(player);
+            HidePlayerUser user = new HidePlayerUser((Player) sender);
             List<String> suggestions = new ArrayList<>();
 
             user.getKeepvisibleList().forEach(uuid -> {

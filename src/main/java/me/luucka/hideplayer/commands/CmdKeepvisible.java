@@ -6,6 +6,7 @@ import me.luucka.hideplayer.commands.subcommands.SubCmdKeepvisibleAdd;
 import me.luucka.hideplayer.commands.subcommands.SubCmdKeepvisibleRemove;
 import me.luucka.hideplayer.commands.subcommands.SubCmdKeepvisibleReset;
 import me.luucka.hideplayer.utility.ChatUtils;
+import me.luucka.lcore.commands.SubCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -29,8 +30,8 @@ public class CmdKeepvisible implements TabExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length > 0) {
             for (SubCommand sub : subCommands) {
-                if (args[0].equalsIgnoreCase(sub.getName())) {
-                    if (sub.canOnlyPlayerUse() && !(sender instanceof Player)) {
+                if (args[0].equalsIgnoreCase(sub.name())) {
+                    if (sub.isOnlyPlayer() && !(sender instanceof Player)) {
                         sender.sendMessage(ChatUtils.message(HidePlayer.getPlugin().getMessagesYml().getConfig().getString("no-console")));
                         return true;
                     }
@@ -50,7 +51,7 @@ public class CmdKeepvisible implements TabExecutor {
                     sender.sendMessage(ChatUtils.hexColor("&7\u25ba &a" + sub.getSyntax() + " &7- &b" + sub.getDescription()));
                 }
                  */
-                sender.sendMessage(ChatUtils.hexColor("&7\u25ba &a" + sub.getSyntax() + " &7- &b" + sub.getDescription()));
+                sender.sendMessage(ChatUtils.hexColor("&7\u25ba &a" + sub.syntax() + " &7- &b" + sub.description()));
             }
         }
         return true;
@@ -66,13 +67,13 @@ public class CmdKeepvisible implements TabExecutor {
                 if (sender.hasPermission(subCmd.getPermission())) {
                     suggestions.add(subCmd.getName());
                 }*/
-                suggestions.add(subCmd.getName());
+                suggestions.add(subCmd.name());
             });
             return suggestions;
         } else if (args.length == 2) {
             for (SubCommand subCmd : subCommands) {
-                if (args[0].equalsIgnoreCase(subCmd.getName())) {
-                    return subCmd.getSubcommandArgs((Player) sender, args);
+                if (args[0].equalsIgnoreCase(subCmd.name())) {
+                    return subCmd.getSubcommandArgs(sender, args);
                 }
             }
         }

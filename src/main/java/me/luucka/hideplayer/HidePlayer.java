@@ -26,9 +26,6 @@ public final class HidePlayer extends JavaPlugin {
     @Getter
     private static HidePlayer plugin;
 
-    @Getter
-    private final PlayerVisibilityManager playerVisibilityManager = new PlayerVisibilityManager();
-
     // Database / Storage
     //------------------------------------------------------------------------------------------------------------------
 

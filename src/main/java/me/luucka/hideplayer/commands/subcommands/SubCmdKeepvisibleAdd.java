@@ -2,8 +2,9 @@ package me.luucka.hideplayer.commands.subcommands;
 
 import me.luucka.hideplayer.HidePlayer;
 import me.luucka.hideplayer.HidePlayerUser;
-import me.luucka.hideplayer.utility.ChatUtils;
+import me.luucka.hideplayer.utility.Chat;
 import me.luucka.lcore.commands.SubCommand;
+import me.luucka.lcore.file.YamlFileManager;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -41,33 +42,33 @@ public class SubCmdKeepvisibleAdd extends SubCommand {
         Player player = (Player) sender;
 
         if (args.length < 2) {
-            player.sendMessage(ChatUtils.message("&cUsage: " + syntax()));
+            player.sendMessage(Chat.message("&cUsage: " + syntax()));
             return;
         }
 
         // Check if target exists
         Player target = HidePlayer.getPlugin().getServer().getPlayerExact(args[1]);
         if (target == null) {
-            player.sendMessage(ChatUtils.message(HidePlayer.getPlugin().getMessagesYml().getConfig().getString("player-not-found")));
+            player.sendMessage(Chat.message(YamlFileManager.file("messages").getString("player-not-found")));
             return;
         }
 
         // Check if you target yourself
         if (target.getName().equalsIgnoreCase(player.getName())) {
-            player.sendMessage(ChatUtils.message(HidePlayer.getPlugin().getMessagesYml().getConfig().getString("add-yourself")));
+            player.sendMessage(Chat.message(YamlFileManager.file("messages").getString("add-yourself")));
             return;
         }
 
         HidePlayerUser user = new HidePlayerUser(player);
 
         if (user.isPlayerInKeepvisibleList(target.getUniqueId())) {
-            player.sendMessage(ChatUtils.message(HidePlayer.getPlugin().getMessagesYml().getConfig().getString("already-added")
+            player.sendMessage(Chat.message(YamlFileManager.file("messages").getString("already-added")
                     .replace("%player%", target.getDisplayName())));
             return;
         }
 
         user.addKeepvisiblePlayer(target.getUniqueId());
-        player.sendMessage(ChatUtils.message(HidePlayer.getPlugin().getMessagesYml().getConfig().getString("add-player")
+        player.sendMessage(Chat.message(YamlFileManager.file("messages").getString("add-player")
                 .replace("%player%", target.getDisplayName())));
     }
 

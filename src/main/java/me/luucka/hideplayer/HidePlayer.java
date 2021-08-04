@@ -7,11 +7,11 @@ import me.luucka.hideplayer.commands.CmdHide;
 import me.luucka.hideplayer.commands.CmdKeepvisible;
 import me.luucka.hideplayer.commands.CmdReload;
 import me.luucka.hideplayer.commands.CmdShow;
-import me.luucka.hideplayer.files.FileManager;
 import me.luucka.hideplayer.listeners.PlayerListeners;
 import me.luucka.hideplayer.storage.SQLManager;
 import me.luucka.hideplayer.storage.StorageManager;
-import me.luucka.hideplayer.utility.ChatUtils;
+import me.luucka.hideplayer.utility.Chat;
+import me.luucka.lcore.file.YamlFileManager;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -26,21 +26,7 @@ public final class HidePlayer extends JavaPlugin {
     @Getter
     private static HidePlayer plugin;
 
-    // Database / Storage
-    //------------------------------------------------------------------------------------------------------------------
-
     @Getter @Setter private HikariDataSource hikari;
-
-
-    // Files
-    //------------------------------------------------------------------------------------------------------------------
-
-    @Getter
-    private FileManager messagesYml;
-
-    @Getter
-    @Setter
-    private FileManager dataYml;
 
     @Getter
     private final Map<UUID, Long> cooldown = new HashMap<>();
@@ -49,7 +35,7 @@ public final class HidePlayer extends JavaPlugin {
     public void onEnable() {
         plugin = this;
         saveDefaultConfig();
-        messagesYml = new FileManager("messages");
+        YamlFileManager.addFile(new YamlFileManager(this, "messages"));
         registerCommands();
         registerListeners();
         StorageManager.setStorageType();
@@ -84,8 +70,7 @@ public final class HidePlayer extends JavaPlugin {
 
     public void reloadAllConfig() {
         reloadConfig();
-        messagesYml.reloadConfig();
-        dataYml.reloadConfig();
+        YamlFileManager.reload();
     }
 
     public boolean cooldownManager(Player player) {
@@ -94,7 +79,7 @@ public final class HidePlayer extends JavaPlugin {
         }
         if (getCooldown().containsKey(player.getUniqueId())) {
             if (getCooldown().get(player.getUniqueId()) > System.currentTimeMillis()) {
-                player.sendMessage(ChatUtils.message(getMessagesYml().getConfig().getString("cooldown")
+                player.sendMessage(Chat.message(YamlFileManager.file("messages").getString("cooldown")
                         .replace("%time%", getConfig().getString("cooldown"))));
                 return false;
             }

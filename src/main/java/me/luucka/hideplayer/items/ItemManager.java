@@ -1,7 +1,7 @@
 package me.luucka.hideplayer.items;
 
 import me.luucka.hideplayer.HidePlayer;
-import me.luucka.hideplayer.utility.ChatUtils;
+import me.luucka.lcore.utility.ColorTranslate;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -17,9 +17,9 @@ public class ItemManager {
         ItemStack item = new ItemStack(Material.matchMaterial(HidePlayer.getPlugin().getConfig().getString("item.show.material")));
         ItemMeta meta = item.getItemMeta();
 
-        meta.setDisplayName(ChatUtils.hexColor(HidePlayer.getPlugin().getConfig().getString("item.show.name")));
+        meta.setDisplayName(ColorTranslate.translate(HidePlayer.getPlugin().getConfig().getString("item.show.name")));
         List<String> lore = new ArrayList<>();
-        lore.add(ChatUtils.hexColor(HidePlayer.getPlugin().getConfig().getString("item.show.lore")));
+        lore.add(ColorTranslate.translate(HidePlayer.getPlugin().getConfig().getString("item.show.lore")));
         meta.setLore(lore);
 
         NamespacedKey key = new NamespacedKey(HidePlayer.getPlugin(), "status");
@@ -34,9 +34,9 @@ public class ItemManager {
         ItemStack item = new ItemStack(Material.matchMaterial(HidePlayer.getPlugin().getConfig().getString("item.hide.material")));
         ItemMeta meta = item.getItemMeta();
 
-        meta.setDisplayName(ChatUtils.hexColor(HidePlayer.getPlugin().getConfig().getString("item.hide.name")));
+        meta.setDisplayName(ColorTranslate.translate(HidePlayer.getPlugin().getConfig().getString("item.hide.name")));
         List<String> lore = new ArrayList<>();
-        lore.add(ChatUtils.hexColor(HidePlayer.getPlugin().getConfig().getString("item.hide.lore")));
+        lore.add(ColorTranslate.translate(HidePlayer.getPlugin().getConfig().getString("item.hide.lore")));
         meta.setLore(lore);
 
         NamespacedKey key = new NamespacedKey(HidePlayer.getPlugin(), "status");

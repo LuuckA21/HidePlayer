@@ -3,8 +3,9 @@ package me.luucka.hideplayer.commands.subcommands;
 import me.luucka.hideplayer.HidePlayer;
 import me.luucka.hideplayer.HidePlayerUser;
 import me.luucka.hideplayer.PlayerVisibilityManager;
-import me.luucka.hideplayer.utility.ChatUtils;
+import me.luucka.hideplayer.utility.Chat;
 import me.luucka.lcore.commands.SubCommand;
+import me.luucka.lcore.file.YamlFileManager;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -43,7 +44,7 @@ public class SubCmdKeepvisibleRemove extends SubCommand {
         Player player = (Player) sender;
 
         if (args.length < 2) {
-            player.sendMessage(ChatUtils.message("&cUsage: " + syntax()));
+            player.sendMessage(Chat.message("&cUsage: " + syntax()));
             return;
         }
 
@@ -62,13 +63,13 @@ public class SubCmdKeepvisibleRemove extends SubCommand {
         });
 
         if (!nameUUID.containsKey(args[1].toLowerCase())) {
-            player.sendMessage(ChatUtils.message(HidePlayer.getPlugin().getMessagesYml().getConfig().getString("player-not-in-list")));
+            player.sendMessage(Chat.message(YamlFileManager.file("messages").getString("player-not-in-list")));
             return;
         }
 
         user.removeKeepvisiblePlayer(UUID.fromString(nameUUID.get(args[1].toLowerCase())));
         PlayerVisibilityManager.hidePlayers(player);
-        player.sendMessage(ChatUtils.message(HidePlayer.getPlugin().getMessagesYml().getConfig().getString("remove-player")
+        player.sendMessage(Chat.message(YamlFileManager.file("messages").getString("remove-player")
                 .replace("%player%", args[1])));
     }
 

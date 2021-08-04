@@ -5,8 +5,10 @@ import me.luucka.hideplayer.HidePlayer;
 import me.luucka.hideplayer.commands.subcommands.SubCmdKeepvisibleAdd;
 import me.luucka.hideplayer.commands.subcommands.SubCmdKeepvisibleRemove;
 import me.luucka.hideplayer.commands.subcommands.SubCmdKeepvisibleReset;
-import me.luucka.hideplayer.utility.ChatUtils;
+import me.luucka.hideplayer.utility.Chat;
 import me.luucka.lcore.commands.SubCommand;
+import me.luucka.lcore.file.YamlFileManager;
+import me.luucka.lcore.utility.ColorTranslate;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -32,7 +34,7 @@ public class CmdKeepvisible implements TabExecutor {
             for (SubCommand sub : subCommands) {
                 if (args[0].equalsIgnoreCase(sub.name())) {
                     if (sub.isOnlyPlayer() && !(sender instanceof Player)) {
-                        sender.sendMessage(ChatUtils.message(HidePlayer.getPlugin().getMessagesYml().getConfig().getString("no-console")));
+                        sender.sendMessage(Chat.message(YamlFileManager.file("messages").getString("no-console")));
                         return true;
                     }
                     /*
@@ -44,14 +46,14 @@ public class CmdKeepvisible implements TabExecutor {
                 }
             }
         } else {
-            sender.sendMessage(ChatUtils.message("&7&lHelp page"));
+            sender.sendMessage(Chat.message("&7&lHelp page"));
             for (SubCommand sub : subCommands) {
                 /*
                 if (sender.hasPermission(sub.getPermission())) {
                     sender.sendMessage(ChatUtils.hexColor("&7\u25ba &a" + sub.getSyntax() + " &7- &b" + sub.getDescription()));
                 }
                  */
-                sender.sendMessage(ChatUtils.hexColor("&7\u25ba &a" + sub.syntax() + " &7- &b" + sub.description()));
+                sender.sendMessage(ColorTranslate.translate("&7\u25ba &a" + sub.syntax() + " &7- &b" + sub.description()));
             }
         }
         return true;

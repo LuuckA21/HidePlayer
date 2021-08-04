@@ -4,7 +4,7 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.Getter;
 import me.luucka.hideplayer.HidePlayer;
-import me.luucka.hideplayer.files.FileManager;
+import me.luucka.lcore.file.YamlFileManager;
 
 public class StorageManager {
 
@@ -45,8 +45,7 @@ public class StorageManager {
             HidePlayer.getPlugin().setHikari(new HikariDataSource(config));
             usingDatabase = true;
         } else if (storageType.equalsIgnoreCase("yaml")){
-            FileManager dataYml = new FileManager("data");
-            HidePlayer.getPlugin().setDataYml(dataYml);
+            YamlFileManager.addFile(new YamlFileManager(HidePlayer.getPlugin(), "data"));
             usingDatabase = false;
         } else {
             try {

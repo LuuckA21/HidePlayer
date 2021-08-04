@@ -82,10 +82,10 @@ public class HidePlayerUser {
     }
 
     public void setShowItem() {
-        player.getInventory().setItem(HidePlayer.getPlugin().getConfig().getInt("item.slot"), ItemManager.giveShowItem());
+        player.getInventory().setItem(HidePlayer.getPlugin().getConfig().getInt("item.slot"), ItemManager.showItem());
     }
 
     public void setHideItem() {
-        player.getInventory().setItem(HidePlayer.getPlugin().getConfig().getInt("item.slot"), ItemManager.giveHideItem());
+        player.getInventory().setItem(HidePlayer.getPlugin().getConfig().getInt("item.slot"), ItemManager.hideItem());
     }
 }

@@ -13,34 +13,25 @@ import java.util.List;
 
 public class ItemManager {
 
-    public static ItemStack giveShowItem() {
-        ItemStack item = new ItemStack(Material.matchMaterial(HidePlayer.getPlugin().getConfig().getString("item.show.material")));
-        ItemMeta meta = item.getItemMeta();
-
-        meta.setDisplayName(ColorTranslate.translate(HidePlayer.getPlugin().getConfig().getString("item.show.name")));
-        List<String> lore = new ArrayList<>();
-        lore.add(ColorTranslate.translate(HidePlayer.getPlugin().getConfig().getString("item.show.lore")));
-        meta.setLore(lore);
-
-        NamespacedKey key = new NamespacedKey(HidePlayer.getPlugin(), "status");
-        meta.getPersistentDataContainer().set(key, PersistentDataType.STRING, "SHOW");
-
-        item.setItemMeta(meta);
-
-        return item;
+    public static ItemStack showItem() {
+        return createItem("show");
     }
 
-    public static ItemStack giveHideItem() {
-        ItemStack item = new ItemStack(Material.matchMaterial(HidePlayer.getPlugin().getConfig().getString("item.hide.material")));
+    public static ItemStack hideItem() {
+        return createItem("hide");
+    }
+
+    public static ItemStack createItem(String type) {
+        ItemStack item = new ItemStack(Material.matchMaterial(HidePlayer.getPlugin().getConfig().getString("item." + type + ".material")));
         ItemMeta meta = item.getItemMeta();
 
-        meta.setDisplayName(ColorTranslate.translate(HidePlayer.getPlugin().getConfig().getString("item.hide.name")));
+        meta.setDisplayName(ColorTranslate.translate(HidePlayer.getPlugin().getConfig().getString("item." + type + ".name")));
         List<String> lore = new ArrayList<>();
-        lore.add(ColorTranslate.translate(HidePlayer.getPlugin().getConfig().getString("item.hide.lore")));
+        lore.add(ColorTranslate.translate(HidePlayer.getPlugin().getConfig().getString("item." + type + ".lore")));
         meta.setLore(lore);
 
         NamespacedKey key = new NamespacedKey(HidePlayer.getPlugin(), "status");
-        meta.getPersistentDataContainer().set(key, PersistentDataType.STRING, "HIDE");
+        meta.getPersistentDataContainer().set(key, PersistentDataType.STRING, type.toUpperCase());
 
         item.setItemMeta(meta);
 

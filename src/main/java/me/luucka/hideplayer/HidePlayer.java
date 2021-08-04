@@ -2,14 +2,13 @@ package me.luucka.hideplayer;
 
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.Getter;
-import lombok.Setter;
 import me.luucka.hideplayer.commands.CmdHide;
 import me.luucka.hideplayer.commands.CmdKeepvisible;
 import me.luucka.hideplayer.commands.CmdReload;
 import me.luucka.hideplayer.commands.CmdShow;
 import me.luucka.hideplayer.listeners.PlayerListeners;
 import me.luucka.hideplayer.storage.SQLManager;
-import me.luucka.hideplayer.storage.StorageManager;
+import me.luucka.hideplayer.storage.StorageTypeManager;
 import me.luucka.hideplayer.utility.Chat;
 import me.luucka.lcore.file.YamlFileManager;
 import org.bukkit.ChatColor;
@@ -26,7 +25,7 @@ public final class HidePlayer extends JavaPlugin {
     @Getter
     private static HidePlayer plugin;
 
-    @Getter @Setter private HikariDataSource hikari;
+    @Getter private HikariDataSource hikari;
 
     @Getter
     private final Map<UUID, Long> cooldown = new HashMap<>();
@@ -38,13 +37,7 @@ public final class HidePlayer extends JavaPlugin {
         YamlFileManager.addFile(new YamlFileManager(this, "messages"));
         registerCommands();
         registerListeners();
-        StorageManager.setStorageType();
-        if (hikari != null) {
-            getLogger().log(Level.INFO,
-                    ChatColor.translateAlternateColorCodes('&', "&aDatabase connected successfully! ("
-                            + StorageManager.getStorageType() + ")"));
-            SQLManager.init();
-        }
+        loadSQLConnection();
     }
 
     @Override
@@ -52,6 +45,22 @@ public final class HidePlayer extends JavaPlugin {
         if (hikari != null) {
             hikari.close();
         }
+    }
+
+    private void loadSQLConnection() {
+        String storageType = getConfig().getString("storage.type");
+        if (storageType == null || storageType.isEmpty()) storageType = "YAML";
+        if (storageType.equalsIgnoreCase("yaml")) {
+            StorageTypeManager.setYamlFile();
+            return;
+        }
+        hikari = StorageTypeManager.getDataSource(storageType);
+        SQLManager.init();
+        getLogger().log(Level.INFO,
+                ChatColor.translateAlternateColorCodes('&',
+                        "&aDatabase connected successfully! ("
+                                + storageType.toUpperCase())
+                        + ")");
     }
 
     // Register Commands / Listener

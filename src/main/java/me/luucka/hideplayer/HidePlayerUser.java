@@ -2,7 +2,7 @@ package me.luucka.hideplayer;
 
 import me.luucka.hideplayer.items.ItemManager;
 import me.luucka.hideplayer.storage.SQLManager;
-import me.luucka.hideplayer.storage.StorageManager;
+import me.luucka.hideplayer.storage.StorageTypeManager;
 import me.luucka.hideplayer.storage.YAMLManager;
 import org.bukkit.entity.Player;
 
@@ -18,7 +18,7 @@ public class HidePlayerUser {
     }
 
     public void createUser() {
-        if (StorageManager.isUsingDatabase()) {
+        if (StorageTypeManager.isUsingDatabase()) {
             SQLManager.createUser(player);
         } else {
             YAMLManager.createUser(player.getUniqueId());
@@ -26,7 +26,7 @@ public class HidePlayerUser {
     }
 
     public boolean getVisible() {
-        if (StorageManager.isUsingDatabase()) {
+        if (StorageTypeManager.isUsingDatabase()) {
             return SQLManager.getVisible(player.getUniqueId());
         } else {
             return YAMLManager.getVisible(player.getUniqueId());
@@ -34,7 +34,7 @@ public class HidePlayerUser {
     }
 
     public void setVisible(boolean visible) {
-        if (StorageManager.isUsingDatabase()) {
+        if (StorageTypeManager.isUsingDatabase()) {
             SQLManager.setVisible(player.getUniqueId(), visible);
         } else {
             YAMLManager.setVisible(player.getUniqueId(), visible);
@@ -42,7 +42,7 @@ public class HidePlayerUser {
     }
 
     public List<String> getKeepvisibleList() {
-        if (StorageManager.isUsingDatabase()) {
+        if (StorageTypeManager.isUsingDatabase()) {
             return SQLManager.getKeepvisibleList(player.getUniqueId());
         } else {
             return YAMLManager.getKeepvisibleList(player.getUniqueId());
@@ -50,7 +50,7 @@ public class HidePlayerUser {
     }
 
     public boolean isPlayerInKeepvisibleList(UUID otherUUID) {
-        if (StorageManager.isUsingDatabase()) {
+        if (StorageTypeManager.isUsingDatabase()) {
             return SQLManager.isPlayerInKeepvisibleList(player.getUniqueId(), otherUUID);
         } else {
             return YAMLManager.isPlayerInKeepvisibleList(player.getUniqueId(), otherUUID);
@@ -58,7 +58,7 @@ public class HidePlayerUser {
     }
 
     public void addKeepvisiblePlayer(UUID otherUUID) {
-        if (StorageManager.isUsingDatabase()) {
+        if (StorageTypeManager.isUsingDatabase()) {
             SQLManager.addKeepvisiblePlayer(player.getUniqueId(), otherUUID);
         } else {
             YAMLManager.addKeepvisiblePlayer(player.getUniqueId(), otherUUID);
@@ -66,7 +66,7 @@ public class HidePlayerUser {
     }
 
     public void removeKeepvisiblePlayer(UUID otherUUID) {
-        if (StorageManager.isUsingDatabase()) {
+        if (StorageTypeManager.isUsingDatabase()) {
             SQLManager.removeKeepvisiblePlayer(player.getUniqueId(), otherUUID);
         } else {
             YAMLManager.removeKeepvisiblePlayer(player.getUniqueId(), otherUUID);
@@ -74,7 +74,7 @@ public class HidePlayerUser {
     }
 
     public void resetKeepvisiblePlayer() {
-        if (StorageManager.isUsingDatabase()) {
+        if (StorageTypeManager.isUsingDatabase()) {
             SQLManager.resetKeepvisiblePlayer(player.getUniqueId());
         } else {
             YAMLManager.resetKeepvisiblePlayer(player.getUniqueId());

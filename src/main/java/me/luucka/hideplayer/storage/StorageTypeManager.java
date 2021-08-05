@@ -36,18 +36,18 @@ public final class StorageTypeManager {
             case "mariadb":
             case "postgresql":
                 config = setNormalDBConnection(storageType);
-                usingDatabase = true;
                 break;
             case "sqlite":
             case "h2":
                 config = setFileDBConnection(storageType);
-                usingDatabase = true;
                 break;
             default:
                 config = setFileDBConnection("h2");
                 PLUGIN.getConfig().set("storage.type", "h2");
                 break;
         }
+
+        usingDatabase = true;
 
         return new HikariDataSource(config);
     }

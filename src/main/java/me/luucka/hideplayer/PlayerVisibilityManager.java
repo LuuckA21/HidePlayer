@@ -13,7 +13,7 @@ public class PlayerVisibilityManager {
     public static void hidePlayers(Player player) {
         HidePlayer.getPlugin().getServer().getOnlinePlayers().forEach(p -> player.hidePlayer(HidePlayer.getPlugin(), p));
 
-        HidePlayerUser user = new HidePlayerUser(player);
+        User user = new User(player);
 
         user.getKeepvisibleList().forEach(uuid -> {
             Player keepPlayer = HidePlayer.getPlugin().getServer().getPlayer(UUID.fromString(uuid));

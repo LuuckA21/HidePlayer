@@ -10,7 +10,8 @@ import me.luucka.hideplayer.listeners.PlayerListeners;
 import me.luucka.hideplayer.storage.SQLManager;
 import me.luucka.hideplayer.storage.StorageTypeManager;
 import me.luucka.hideplayer.utility.Chat;
-import me.luucka.lcore.file.YamlFileManager;
+import me.luucka.lcore.file.YamlFile;
+import me.luucka.lcore.manager.YamlManager;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -25,6 +26,8 @@ public final class HidePlayer extends JavaPlugin {
     @Getter
     private static HidePlayer plugin;
 
+    public static final YamlManager yamlManager = new YamlManager();
+
     @Getter private HikariDataSource hikari;
 
     @Getter
@@ -34,9 +37,9 @@ public final class HidePlayer extends JavaPlugin {
     public void onEnable() {
         plugin = this;
         saveDefaultConfig();
-        YamlFileManager.addFile(new YamlFileManager(this, "messages"));
         registerCommands();
         registerListeners();
+        registerFiles();
         loadSQLConnection();
     }
 
@@ -77,9 +80,13 @@ public final class HidePlayer extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerListeners(), this);
     }
 
+    private void registerFiles() {
+        yamlManager.addFile(new YamlFile(this, "messages"));
+    }
+
     public void reloadAllConfig() {
         reloadConfig();
-        YamlFileManager.reload();
+        yamlManager.reload();
     }
 
     public boolean cooldownManager(Player player) {
@@ -88,13 +95,13 @@ public final class HidePlayer extends JavaPlugin {
         }
         if (getCooldown().containsKey(player.getUniqueId())) {
             if (getCooldown().get(player.getUniqueId()) > System.currentTimeMillis()) {
-                player.sendMessage(Chat.message(YamlFileManager.file("messages").getString("cooldown")
+                player.sendMessage(Chat.message(yamlManager.cfg("messages").getString("cooldown")
                         .replace("%time%", getConfig().getString("cooldown"))));
                 return false;
             }
             getCooldown().remove(player.getUniqueId());
         }
-        getCooldown().put(player.getUniqueId(), System.currentTimeMillis() + (getConfig().getInt("cooldown") * 1000));
+        getCooldown().put(player.getUniqueId(), System.currentTimeMillis() + (getConfig().getInt("cooldown") * 1000L));
         return true;
     }
 }

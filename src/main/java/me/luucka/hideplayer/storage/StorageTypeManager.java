@@ -4,7 +4,7 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.Getter;
 import me.luucka.hideplayer.HidePlayer;
-import me.luucka.lcore.file.YamlFileManager;
+import me.luucka.lcore.file.YamlFile;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -82,7 +82,7 @@ public final class StorageTypeManager {
 
     public static void setYamlFile() {
         usingDatabase = false;
-        YamlFileManager.addFile(new YamlFileManager(PLUGIN, "data"));
+        HidePlayer.yamlManager.addFile(new YamlFile(PLUGIN, "data"));
     }
 
 }

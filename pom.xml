@@ -6,7 +6,7 @@
 
     <groupId>me.luucka</groupId>
     <artifactId>HidePlayer</artifactId>
-    <version>1.3-DEV-5</version>
+    <version>1.3-DEV-6</version>
     <packaging>jar</packaging>
 
     <name>HidePlayer</name>
@@ -20,7 +20,7 @@
         <libs.lombok>1.18.20</libs.lombok>
 
         <!-- Minecraft libs -->
-        <libs.lcore>1.2.3</libs.lcore>
+        <libs.lcore>1.4</libs.lcore>
 
         <!-- Database libs -->
         <libs.hikaricp>5.0.0</libs.hikaricp>
@@ -28,7 +28,7 @@
         <libs.mariadb>2.7.3</libs.mariadb>
         <libs.postgresql>42.2.23</libs.postgresql>
 
-        <libs.sqlite>3.36.0.1</libs.sqlite>
+        <libs.sqlite>3.36.0.3</libs.sqlite>
         <libs.h2>1.4.200</libs.h2>
 
     </properties>

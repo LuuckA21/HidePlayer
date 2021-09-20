@@ -7,8 +7,7 @@ import me.luucka.hideplayer.commands.subcommands.SubCmdKeepvisibleRemove;
 import me.luucka.hideplayer.commands.subcommands.SubCmdKeepvisibleReset;
 import me.luucka.hideplayer.utility.Chat;
 import me.luucka.lcore.commands.SubCommand;
-import me.luucka.lcore.file.YamlFileManager;
-import me.luucka.lcore.utility.ColorTranslate;
+import me.luucka.lcore.utils.ColorTranslate;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -34,25 +33,15 @@ public class CmdKeepvisible implements TabExecutor {
             for (SubCommand sub : subCommands) {
                 if (args[0].equalsIgnoreCase(sub.name())) {
                     if (sub.isOnlyPlayer() && !(sender instanceof Player)) {
-                        sender.sendMessage(Chat.message(YamlFileManager.file("messages").getString("no-console")));
+                        sender.sendMessage(Chat.message(HidePlayer.yamlManager.cfg("messages").getString("no-console")));
                         return true;
                     }
-                    /*
-                    if (!sender.hasPermission(sub.getPermission())) {
-                        sender.sendMessage(ChatUtils.message(HidePlayer.getPlugin().getMessagesYml().getConfig().getString("no-perm")));
-                        return true;
-                    }*/
                     sub.perform(sender, args);
                 }
             }
         } else {
             sender.sendMessage(Chat.message("&7&lHelp page"));
             for (SubCommand sub : subCommands) {
-                /*
-                if (sender.hasPermission(sub.getPermission())) {
-                    sender.sendMessage(ChatUtils.hexColor("&7\u25ba &a" + sub.getSyntax() + " &7- &b" + sub.getDescription()));
-                }
-                 */
                 sender.sendMessage(ColorTranslate.translate("&7\u25ba &a" + sub.syntax() + " &7- &b" + sub.description()));
             }
         }
@@ -64,13 +53,7 @@ public class CmdKeepvisible implements TabExecutor {
         List<String> suggestions = new ArrayList<>();
 
         if (args.length == 1) {
-            getSubCommands().forEach(subCmd -> {
-                /*
-                if (sender.hasPermission(subCmd.getPermission())) {
-                    suggestions.add(subCmd.getName());
-                }*/
-                suggestions.add(subCmd.name());
-            });
+            getSubCommands().forEach(subCmd -> suggestions.add(subCmd.name()));
             return suggestions;
         } else if (args.length == 2) {
             for (SubCommand subCmd : subCommands) {

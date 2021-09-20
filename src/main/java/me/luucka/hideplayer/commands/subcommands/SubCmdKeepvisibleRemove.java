@@ -1,11 +1,10 @@
 package me.luucka.hideplayer.commands.subcommands;
 
 import me.luucka.hideplayer.HidePlayer;
-import me.luucka.hideplayer.HidePlayerUser;
 import me.luucka.hideplayer.PlayerVisibilityManager;
+import me.luucka.hideplayer.User;
 import me.luucka.hideplayer.utility.Chat;
 import me.luucka.lcore.commands.SubCommand;
-import me.luucka.lcore.file.YamlFileManager;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -48,7 +47,7 @@ public class SubCmdKeepvisibleRemove extends SubCommand {
             return;
         }
 
-        HidePlayerUser user = new HidePlayerUser(player);
+        User user = new User(player);
 
         // Create List<OfflinePlayer> from UUID in keepvisible personal list
         List<OfflinePlayer> offlinePlayerList = new ArrayList<>();
@@ -63,20 +62,20 @@ public class SubCmdKeepvisibleRemove extends SubCommand {
         });
 
         if (!nameUUID.containsKey(args[1].toLowerCase())) {
-            player.sendMessage(Chat.message(YamlFileManager.file("messages").getString("player-not-in-list")));
+            player.sendMessage(Chat.message(HidePlayer.yamlManager.cfg("messages").getString("player-not-in-list")));
             return;
         }
 
         user.removeKeepvisiblePlayer(UUID.fromString(nameUUID.get(args[1].toLowerCase())));
         PlayerVisibilityManager.hidePlayers(player);
-        player.sendMessage(Chat.message(YamlFileManager.file("messages").getString("remove-player")
+        player.sendMessage(Chat.message(HidePlayer.yamlManager.cfg("messages").getString("remove-player")
                 .replace("%player%", args[1])));
     }
 
     @Override
     public List<String> getSubcommandArgs(CommandSender sender, String[] args) {
         if (args.length == 2) {
-            HidePlayerUser user = new HidePlayerUser((Player) sender);
+            User user = new User((Player) sender);
             List<String> suggestions = new ArrayList<>();
 
             user.getKeepvisibleList().forEach(uuid -> {

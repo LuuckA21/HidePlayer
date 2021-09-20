@@ -1,7 +1,6 @@
 package me.luucka.hideplayer.storage;
 
 import me.luucka.hideplayer.HidePlayer;
-import me.luucka.lcore.file.YamlFileManager;
 
 import java.util.List;
 import java.util.UUID;
@@ -12,7 +11,7 @@ public class YAMLManager {
     //------------------------------------------------------------------------------------------------------------------
 
     public static boolean userExists(UUID uuid) {
-        return YamlFileManager.file("data").contains(uuid.toString());
+        return HidePlayer.yamlManager.cfg("data").contains(uuid.toString());
     }
 
     public static void createUser(UUID uuid) {
@@ -20,24 +19,24 @@ public class YAMLManager {
             return;
         }
 
-        YamlFileManager.file("data").set(uuid + ".visible", true);
-        YamlFileManager.saveFile("data");
+        HidePlayer.yamlManager.cfg("data").set(uuid + ".visible", true);
+        HidePlayer.yamlManager.save("data");
     }
 
     public static boolean getVisible(UUID uuid) {
-        return YamlFileManager.file("data").getBoolean(uuid + ".visible");
+        return HidePlayer.yamlManager.cfg("data").getBoolean(uuid + ".visible");
     }
 
     public static void setVisible(UUID uuid, boolean visible) {
-        YamlFileManager.file("data").set(uuid + ".visible", visible);
-        YamlFileManager.saveFile("data");
+        HidePlayer.yamlManager.cfg("data").set(uuid + ".visible", visible);
+        HidePlayer.yamlManager.save("data");
     }
 
     // Table KEEPVISIBLE
     //------------------------------------------------------------------------------------------------------------------
 
     public static List<String> getKeepvisibleList(UUID myUUID) {
-        return YamlFileManager.file("data").getStringList(myUUID + ".keepvisible");
+        return HidePlayer.yamlManager.cfg("data").getStringList(myUUID + ".keepvisible");
     }
 
     public static boolean isPlayerInKeepvisibleList(UUID myUUID, UUID otherUUID) {
@@ -51,20 +50,20 @@ public class YAMLManager {
 
         List<String> myList = getKeepvisibleList(myUUID);
         myList.add(otherUUID.toString());
-        YamlFileManager.file("data").set(myUUID + ".keepvisible", myList);
-        YamlFileManager.saveFile("data");
+        HidePlayer.yamlManager.cfg("data").set(myUUID + ".keepvisible", myList);
+        HidePlayer.yamlManager.save("data");
     }
 
     public static void removeKeepvisiblePlayer(UUID myUUID, UUID otherUUID) {
         List<String> myList = getKeepvisibleList(myUUID);
         myList.remove(otherUUID.toString());
-        YamlFileManager.file("data").set(myUUID + ".keepvisible", myList);
-        YamlFileManager.saveFile("data");
+        HidePlayer.yamlManager.cfg("data").set(myUUID + ".keepvisible", myList);
+        HidePlayer.yamlManager.save("data");
     }
 
     public static void resetKeepvisiblePlayer(UUID myUUID) {
-        YamlFileManager.file("data").set(myUUID + ".keepvisible", null);
-        YamlFileManager.saveFile("data");
+        HidePlayer.yamlManager.cfg("data").set(myUUID + ".keepvisible", null);
+        HidePlayer.yamlManager.save("data");
     }
 
 }

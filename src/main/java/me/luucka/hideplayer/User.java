@@ -5,15 +5,16 @@ import me.luucka.hideplayer.storage.SQLManager;
 import me.luucka.hideplayer.storage.StorageTypeManager;
 import me.luucka.hideplayer.storage.YAMLManager;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 import java.util.UUID;
 
-public class HidePlayerUser {
+public class User {
 
     private final Player player;
 
-    public HidePlayerUser(Player player) {
+    public User(Player player) {
         this.player = player;
     }
 
@@ -82,10 +83,10 @@ public class HidePlayerUser {
     }
 
     public void setShowItem() {
-        player.getInventory().setItem(HidePlayer.getPlugin().getConfig().getInt("item.slot"), ItemManager.showItem());
+        player.getInventory().setItem(HidePlayer.getPlugin().getConfig().getInt("item.slot"), ItemManager.showItem(player));
     }
 
     public void setHideItem() {
-        player.getInventory().setItem(HidePlayer.getPlugin().getConfig().getInt("item.slot"), ItemManager.hideItem());
+        player.getInventory().setItem(HidePlayer.getPlugin().getConfig().getInt("item.slot"), ItemManager.hideItem(player));
     }
 }

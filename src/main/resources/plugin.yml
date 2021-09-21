@@ -5,8 +5,12 @@ api-version: 1.17
 authors: [ LuuckA ]
 description: Hide and Show player
 libraries:
-  - com.zaxxer:HikariCP:4.0.3
-  - com.h2database:h2:1.4.200
+  - com.zaxxer:HikariCP:${libs.hikaricp}
+  - mysql:mysql-connector-java:${libs.mysql}
+  - org.mariadb.jdbc:mariadb-java-client:${libs.mariadb}
+  - org.postgresql:postgresql:${libs.postgresql}
+  - org.xerial:sqlite-jdbc:${libs.sqlite}
+  - com.h2database:h2:${libs.h2}
 commands:
   hideplayer:
     description: Reload plugin

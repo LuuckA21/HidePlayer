@@ -6,7 +6,7 @@
 
     <groupId>me.luucka</groupId>
     <artifactId>HidePlayer</artifactId>
-    <version>1.3</version>
+    <version>1.3.1</version>
     <packaging>jar</packaging>
 
     <name>HidePlayer</name>
@@ -25,7 +25,7 @@
         <!-- Database libs -->
         <libs.hikaricp>5.0.0</libs.hikaricp>
         <libs.mysql>8.0.26</libs.mysql>
-        <libs.mariadb>2.7.3</libs.mariadb>
+        <libs.mariadb>2.7.4</libs.mariadb>
         <libs.postgresql>42.2.23</libs.postgresql>
 
         <libs.sqlite>3.36.0.3</libs.sqlite>

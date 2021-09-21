@@ -31,11 +31,13 @@ public class ItemManager {
 
         if (sMaterial.equalsIgnoreCase("CUSTOM_HEAD")) {
             SkullMeta sMeta = (SkullMeta) item.getItemMeta();
+            if (sMeta == null) return null;
             sMeta.setOwningPlayer(player);
             item.setItemMeta(sMeta);
         }
 
         ItemMeta meta = item.getItemMeta();
+        if (meta == null) return null;
 
         meta.setDisplayName(ColorTranslate.translate(HidePlayer.getPlugin().getConfig().getString("item." + type + ".name")));
         List<String> lore = new ArrayList<>();

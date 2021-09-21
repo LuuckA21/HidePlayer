@@ -13,31 +13,26 @@ public class CmdHide implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        // Check if sender is a instanceof Player. Only players can run this command
         if (!(sender instanceof Player)) {
             sender.sendMessage(Chat.message(HidePlayer.yamlManager.cfg("messages").getString("no-console")));
             return true;
         }
-        // Cast sender in Player class
-        Player player = (Player) sender;
+
+        User user = new User((Player) sender);
 
         // Check cooldown
-        if (!HidePlayer.getPlugin().cooldownManager(player)) {
+        if (!HidePlayer.getPlugin().cooldownManager(user.getPlayer())) {
             return true;
         }
 
-        // Call method for hide all players
-        PlayerVisibilityManager.hidePlayers(player);
-        // Send messages to player
-        player.sendMessage(Chat.message(HidePlayer.yamlManager.cfg("messages").getString("hideall")));
+        PlayerVisibilityManager.hidePlayers(user.getPlayer());
 
-        // Set visible status to false
-        User user = new User(player);
-        user.setVisible(false);
+        user.getPlayer().sendMessage(Chat.message(HidePlayer.yamlManager.cfg("messages").getString("hideall")));
 
         if (HidePlayer.getPlugin().getConfig().getBoolean("item.enable")) {
             user.setHideItem();
         }
+
         return true;
     }
 }

@@ -1,5 +1,6 @@
 package me.luucka.hideplayer;
 
+import me.luucka.hideplayer.utility.Chat;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
@@ -8,6 +9,10 @@ public class PlayerVisibilityManager {
 
     public static void showPlayers(Player player) {
         HidePlayer.getPlugin().getServer().getOnlinePlayers().forEach(p -> player.showPlayer(HidePlayer.getPlugin(), p));
+
+        // Set visible status to true
+        User user = new User(player);
+        user.setVisible(true);
     }
 
     public static void hidePlayers(Player player) {
@@ -21,5 +26,7 @@ public class PlayerVisibilityManager {
                 player.showPlayer(HidePlayer.getPlugin(), keepPlayer);
             }
         });
+
+        user.setVisible(false);
     }
 }

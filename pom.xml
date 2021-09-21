@@ -6,7 +6,7 @@
 
     <groupId>me.luucka</groupId>
     <artifactId>HidePlayer</artifactId>
-    <version>1.3-DEV-6</version>
+    <version>1.3-DEV-7</version>
     <packaging>jar</packaging>
 
     <name>HidePlayer</name>

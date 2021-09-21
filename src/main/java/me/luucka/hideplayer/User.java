@@ -1,17 +1,18 @@
 package me.luucka.hideplayer;
 
+import lombok.Getter;
 import me.luucka.hideplayer.items.ItemManager;
 import me.luucka.hideplayer.storage.SQLManager;
 import me.luucka.hideplayer.storage.StorageTypeManager;
 import me.luucka.hideplayer.storage.YAMLManager;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 import java.util.UUID;
 
 public class User {
 
+    @Getter
     private final Player player;
 
     public User(Player player) {

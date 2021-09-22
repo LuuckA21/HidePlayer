@@ -67,6 +67,9 @@ public class SubCmdKeepvisibleAdd extends SubCommand {
         }
 
         user.addKeepvisiblePlayer(target.getUniqueId());
+
+        if (!user.getVisible()) player.showPlayer(HidePlayer.getPlugin(), target);
+
         player.sendMessage(Chat.message(HidePlayer.yamlManager.cfg("messages").getString("add-player")
                 .replace("%player%", target.getDisplayName())));
     }

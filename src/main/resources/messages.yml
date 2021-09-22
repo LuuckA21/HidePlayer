@@ -16,3 +16,8 @@ showall: "&aPlayer visibility enabled!"
 add-player: "&aYou added &6%player% &ain your keepvisibile list"
 remove-player: "&aYou removed &6%player% &afrom you keepvisible list"
 reset-list: "&aYou have reset your keepvisible list"
+
+# Placeholder API
+is-players-hidden:
+  true: "Yes"
+  false: "No"

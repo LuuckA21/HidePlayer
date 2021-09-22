@@ -30,7 +30,7 @@ public class PlaceholderHidePlayer extends PlaceholderExpansion {
         User user = new User(player);
 
         if (identifier.equalsIgnoreCase("is_players_hidden")) {
-            return user.getVisible() ? "No" : "Yes";
+            return HidePlayer.yamlManager.cfg("messages").getString("is-players-hidden." + (user.getVisible() ? "false" : "true"));
         }
 
         return "";

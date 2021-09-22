@@ -1,6 +1,5 @@
 package me.luucka.hideplayer;
 
-import me.luucka.hideplayer.utility.Chat;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;

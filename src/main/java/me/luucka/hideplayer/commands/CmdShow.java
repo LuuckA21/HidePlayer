@@ -25,12 +25,12 @@ public class CmdShow implements CommandExecutor {
             return true;
         }
 
-        PlayerVisibilityManager.showPlayers(user.getPlayer());
-
-        user.getPlayer().sendMessage(Chat.message(HidePlayer.yamlManager.cfg("messages").getString("showall")));
-
-        if (HidePlayer.getPlugin().getConfig().getBoolean("item.enable")) {
-            user.setShowItem();
+        if (!user.getVisible()) {
+            PlayerVisibilityManager.showPlayers(user.getPlayer());
+            user.getPlayer().sendMessage(Chat.message(HidePlayer.yamlManager.cfg("messages").getString("showall")));
+            if (HidePlayer.getPlugin().getConfig().getBoolean("item.enable")) {
+                user.setShowItem();
+            }
         }
 
         return true;

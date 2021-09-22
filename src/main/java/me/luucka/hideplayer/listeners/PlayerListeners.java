@@ -64,28 +64,31 @@ public class PlayerListeners implements Listener {
         if (container.has(key, PersistentDataType.STRING)) {
             String sKey = container.get(key, PersistentDataType.STRING);
             if (sKey == null) return;
+
+            User user = new User(player);
+
             if (sKey.equals("SHOW")) {
                 if (!HidePlayer.getPlugin().cooldownManager(player)) {
                     return;
                 }
 
-                PlayerVisibilityManager.hidePlayers(player);
-
-                player.sendMessage(Chat.message(HidePlayer.yamlManager.cfg("messages").getString("hideall")));
-
-                player.getInventory().getItemInMainHand().setType(ItemManager.hideItem(player).getType());
-                player.getInventory().getItemInMainHand().setItemMeta(ItemManager.hideItem(player).getItemMeta());
+                if (user.getVisible()) {
+                    PlayerVisibilityManager.hidePlayers(user.getPlayer());
+                    user.getPlayer().sendMessage(Chat.message(HidePlayer.yamlManager.cfg("messages").getString("hideall")));
+                    player.getInventory().getItemInMainHand().setType(ItemManager.hideItem(player).getType());
+                    player.getInventory().getItemInMainHand().setItemMeta(ItemManager.hideItem(player).getItemMeta());
+                }
             } else if (sKey.equals("HIDE")) {
                 if (!HidePlayer.getPlugin().cooldownManager(player)) {
                     return;
                 }
 
-                PlayerVisibilityManager.showPlayers(player);
-
-                player.sendMessage(Chat.message(HidePlayer.yamlManager.cfg("messages").getString("showall")));
-
-                player.getInventory().getItemInMainHand().setType(ItemManager.showItem(player).getType());
-                player.getInventory().getItemInMainHand().setItemMeta(ItemManager.showItem(player).getItemMeta());
+                if (!user.getVisible()) {
+                    PlayerVisibilityManager.showPlayers(user.getPlayer());
+                    user.getPlayer().sendMessage(Chat.message(HidePlayer.yamlManager.cfg("messages").getString("showall")));
+                    player.getInventory().getItemInMainHand().setType(ItemManager.showItem(player).getType());
+                    player.getInventory().getItemInMainHand().setItemMeta(ItemManager.showItem(player).getItemMeta());
+                }
             }
         }
     }

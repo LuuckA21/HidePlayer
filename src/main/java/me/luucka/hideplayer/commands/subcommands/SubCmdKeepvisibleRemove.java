@@ -1,7 +1,6 @@
 package me.luucka.hideplayer.commands.subcommands;
 
 import me.luucka.hideplayer.HidePlayer;
-import me.luucka.hideplayer.PlayerVisibilityManager;
 import me.luucka.hideplayer.User;
 import me.luucka.hideplayer.utility.Chat;
 import me.luucka.lcore.commands.SubCommand;
@@ -47,6 +46,8 @@ public class SubCmdKeepvisibleRemove extends SubCommand {
             return;
         }
 
+        String _name = args[1].toLowerCase();
+
         User user = new User(player);
 
         // Create List<OfflinePlayer> from UUID in keepvisible personal list
@@ -56,20 +57,25 @@ public class SubCmdKeepvisibleRemove extends SubCommand {
             offlinePlayerList.add(HidePlayer.getPlugin().getServer().getOfflinePlayer(UUID.fromString(uuid)));
         });
 
-        Map<String, String> nameUUID = new HashMap<>();
+        Map<String, UUID> nameUUID = new HashMap<>();
         offlinePlayerList.forEach(offlinePlayer -> {
-            nameUUID.put(offlinePlayer.getName().toLowerCase(), offlinePlayer.getUniqueId().toString());
+            nameUUID.put(offlinePlayer.getName().toLowerCase(), offlinePlayer.getUniqueId());
         });
 
-        if (!nameUUID.containsKey(args[1].toLowerCase())) {
+        if (!nameUUID.containsKey(_name)) {
             player.sendMessage(Chat.message(HidePlayer.yamlManager.cfg("messages").getString("player-not-in-list")));
             return;
         }
 
-        user.removeKeepvisiblePlayer(UUID.fromString(nameUUID.get(args[1].toLowerCase())));
-        PlayerVisibilityManager.hidePlayers(player);
+        user.removeKeepvisiblePlayer(nameUUID.get(_name));
+
+        if (!user.getVisible()) {
+            Player toHide = HidePlayer.getPlugin().getServer().getPlayer(nameUUID.get(_name));
+            if (toHide != null) player.hidePlayer(HidePlayer.getPlugin(), toHide);
+        }
+
         player.sendMessage(Chat.message(HidePlayer.yamlManager.cfg("messages").getString("remove-player")
-                .replace("%player%", args[1])));
+                .replace("%player%", _name)));
     }
 
     @Override

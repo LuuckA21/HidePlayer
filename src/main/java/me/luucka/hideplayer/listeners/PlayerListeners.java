@@ -5,11 +5,8 @@ import me.luucka.hideplayer.PlayerVisibilityManager;
 import me.luucka.hideplayer.User;
 import me.luucka.hideplayer.items.ItemManager;
 import me.luucka.hideplayer.utility.Chat;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -26,7 +23,6 @@ public class PlayerListeners implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-
         User user = new User(player);
         user.createUser();
 
@@ -42,10 +38,20 @@ public class PlayerListeners implements Listener {
                 }
             }
         } else {
+            user.setVisible(true);
             if (HidePlayer.getPlugin().getConfig().getBoolean("item.enable")) {
                 user.setShowItem();
             }
         }
+
+        HidePlayer.getPlugin().getServer().getOnlinePlayers().forEach(onlinePlayer -> {
+            User onlineUser = new User(onlinePlayer);
+            if (!onlineUser.getVisible()) {
+                if (!onlineUser.isPlayerInKeepvisibleList(player.getUniqueId())) {
+                    onlinePlayer.hidePlayer(HidePlayer.getPlugin(), player);
+                }
+            }
+        });
     }
 
     @EventHandler

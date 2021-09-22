@@ -25,12 +25,12 @@ public class CmdHide implements CommandExecutor {
             return true;
         }
 
-        PlayerVisibilityManager.hidePlayers(user.getPlayer());
-
-        user.getPlayer().sendMessage(Chat.message(HidePlayer.yamlManager.cfg("messages").getString("hideall")));
-
-        if (HidePlayer.getPlugin().getConfig().getBoolean("item.enable")) {
-            user.setHideItem();
+        if (user.getVisible()) {
+            PlayerVisibilityManager.hidePlayers(user.getPlayer());
+            user.getPlayer().sendMessage(Chat.message(HidePlayer.yamlManager.cfg("messages").getString("hideall")));
+            if (HidePlayer.getPlugin().getConfig().getBoolean("item.enable")) {
+                user.setHideItem();
+            }
         }
 
         return true;

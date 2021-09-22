@@ -4,6 +4,7 @@ main: me.luucka.hideplayer.HidePlayer
 api-version: 1.17
 authors: [ LuuckA ]
 description: Hide and Show player
+softdepend: [ PlaceholderAPI ]
 libraries:
   - com.zaxxer:HikariCP:${libs.hikaricp}
   - mysql:mysql-connector-java:${libs.mysql}

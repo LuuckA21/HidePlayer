@@ -6,6 +6,7 @@ import me.luucka.hideplayer.commands.CmdHide;
 import me.luucka.hideplayer.commands.CmdKeepvisible;
 import me.luucka.hideplayer.commands.CmdReload;
 import me.luucka.hideplayer.commands.CmdShow;
+import me.luucka.hideplayer.hook.PlaceholderHidePlayer;
 import me.luucka.hideplayer.listeners.PlayerListeners;
 import me.luucka.hideplayer.storage.SQLManager;
 import me.luucka.hideplayer.storage.StorageTypeManager;
@@ -41,6 +42,9 @@ public final class HidePlayer extends JavaPlugin {
         registerListeners();
         registerFiles();
         loadSQLConnection();
+        if (getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+            new PlaceholderHidePlayer().register();
+        }
     }
 
     @Override

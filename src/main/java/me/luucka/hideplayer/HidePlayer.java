@@ -13,6 +13,7 @@ import me.luucka.hideplayer.storage.StorageTypeManager;
 import me.luucka.hideplayer.utility.Chat;
 import me.luucka.lcore.file.YamlFile;
 import me.luucka.lcore.manager.YamlManager;
+import me.luucka.lcore.versionchecker.PluginVersion;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -41,6 +42,7 @@ public final class HidePlayer extends JavaPlugin {
         registerListeners();
         registerFiles();
         loadSQLConnection();
+        checkVersion();
         if (getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             new PlaceholderHidePlayer().register();
         }
@@ -67,6 +69,19 @@ public final class HidePlayer extends JavaPlugin {
                         "&aDatabase connected successfully! ("
                                 + storageType.toUpperCase())
                         + ")");
+    }
+
+    private void checkVersion() {
+        if (getConfig().getBoolean("check-updates")) {
+            new PluginVersion(this, 92830).check(id -> {
+                if (id.equalsIgnoreCase(getDescription().getVersion())) {
+                    getLogger().log(Level.INFO, ChatColor.translateAlternateColorCodes('&', "&a&lis up to date!"));
+                } else {
+                    getLogger().log(Level.INFO, ChatColor.translateAlternateColorCodes('&', "&cNew version available! v" + id));
+                    getLogger().log(Level.INFO, ChatColor.translateAlternateColorCodes('&', "&aDownload: &7https://www.spigotmc.org/resources/hideplayer.92830/"));
+                }
+            });
+        }
     }
 
     // Register Commands / Listener

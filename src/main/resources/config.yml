@@ -41,3 +41,4 @@ item:
 # Other
 use-visible-status-on-join: true
 cooldown: 3 #In second
+check-updates: true

@@ -53,14 +53,10 @@ public class SubCmdKeepvisibleRemove extends SubCommand {
         // Create List<OfflinePlayer> from UUID in keepvisible personal list
         List<OfflinePlayer> offlinePlayerList = new ArrayList<>();
         List<String> uuids = user.getKeepvisibleList();
-        uuids.forEach(uuid -> {
-            offlinePlayerList.add(HidePlayer.getPlugin().getServer().getOfflinePlayer(UUID.fromString(uuid)));
-        });
+        uuids.forEach(uuid -> offlinePlayerList.add(HidePlayer.getPlugin().getServer().getOfflinePlayer(UUID.fromString(uuid))));
 
         Map<String, UUID> nameUUID = new HashMap<>();
-        offlinePlayerList.forEach(offlinePlayer -> {
-            nameUUID.put(offlinePlayer.getName().toLowerCase(), offlinePlayer.getUniqueId());
-        });
+        offlinePlayerList.forEach(offlinePlayer -> nameUUID.put(offlinePlayer.getName().toLowerCase(), offlinePlayer.getUniqueId()));
 
         if (!nameUUID.containsKey(_name)) {
             player.sendMessage(Chat.message(HidePlayer.yamlManager.cfg("messages").getString("player-not-in-list")));
@@ -84,9 +80,7 @@ public class SubCmdKeepvisibleRemove extends SubCommand {
             User user = new User((Player) sender);
             List<String> suggestions = new ArrayList<>();
 
-            user.getKeepvisibleList().forEach(uuid -> {
-                suggestions.add(HidePlayer.getPlugin().getServer().getOfflinePlayer(UUID.fromString(uuid)).getName());
-            });
+            user.getKeepvisibleList().forEach(uuid -> suggestions.add(HidePlayer.getPlugin().getServer().getOfflinePlayer(UUID.fromString(uuid)).getName()));
             return suggestions;
         }
         return null;

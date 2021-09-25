@@ -31,8 +31,7 @@ public final class HidePlayer extends JavaPlugin {
 
     @Getter private HikariDataSource hikari;
 
-    @Getter
-    private final Map<UUID, Long> cooldown = new HashMap<>();
+    private final Map<UUID, Long> cooldownMap = new HashMap<>();
 
     @Override
     public void onEnable() {
@@ -97,15 +96,15 @@ public final class HidePlayer extends JavaPlugin {
         if (player.hasPermission("hideplayer.cooldown")) {
             return true;
         }
-        if (getCooldown().containsKey(player.getUniqueId())) {
-            if (getCooldown().get(player.getUniqueId()) > System.currentTimeMillis()) {
+        if (cooldownMap.containsKey(player.getUniqueId())) {
+            if (cooldownMap.get(player.getUniqueId()) > System.currentTimeMillis()) {
                 player.sendMessage(Chat.message(yamlManager.cfg("messages").getString("cooldown")
                         .replace("%time%", getConfig().getString("cooldown"))));
                 return false;
             }
-            getCooldown().remove(player.getUniqueId());
+            cooldownMap.remove(player.getUniqueId());
         }
-        getCooldown().put(player.getUniqueId(), System.currentTimeMillis() + (getConfig().getInt("cooldown") * 1000L));
+        cooldownMap.put(player.getUniqueId(), System.currentTimeMillis() + (getConfig().getInt("cooldown") * 1000L));
         return true;
     }
 }

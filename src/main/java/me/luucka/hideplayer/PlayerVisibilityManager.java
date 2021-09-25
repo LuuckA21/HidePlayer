@@ -9,9 +9,7 @@ public class PlayerVisibilityManager {
     public static void showPlayers(Player player) {
         HidePlayer.getPlugin().getServer().getOnlinePlayers().forEach(p -> player.showPlayer(HidePlayer.getPlugin(), p));
 
-        // Set visible status to true
-        User user = new User(player);
-        user.setVisible(true);
+        new User(player).setVisible(true);
     }
 
     public static void hidePlayers(Player player) {

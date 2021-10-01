@@ -27,11 +27,11 @@ public class ItemManager {
     public static ItemStack createItem(String type, Player player) {
 
         String sMaterial = HidePlayer.getPlugin().getConfig().getString("item." + type + ".material");
+        String headValue = HidePlayer.getPlugin().getConfig().getString("item." + type + ".custom-head-value");
 
         ItemBuilder itemBuilder;
 
-        if (sMaterial.equalsIgnoreCase("CUSTOM_HEAD")) {
-            String headValue = HidePlayer.getPlugin().getConfig().getString("item." + type + ".custom-head-value");
+        if (sMaterial.equalsIgnoreCase("PLAYER_HEAD")) {
             if (headValue.isEmpty()) {
                 itemBuilder = new ItemBuilder(Material.PLAYER_HEAD);
                 itemBuilder.setOwningPlayer(player);

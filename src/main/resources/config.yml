@@ -33,10 +33,12 @@ item:
     material: LIME_DYE
     name: "&7Players: &aVisible &7(Right-Click)"
     lore: "&7Right-Click to toggle player visibility!"
+    custom-head-value: "" #Leave empty for player personal head
   hide:
     material: GRAY_DYE
     name: "&7Players: &cHidden &7(Right-Click)"
     lore: "&7Right-Click to toggle player visibility!"
+    custom-head-value: "" #Leave empty for player personal head
 
 # Other
 use-visible-status-on-join: true

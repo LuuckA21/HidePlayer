@@ -4,6 +4,7 @@ main: me.luucka.hideplayer.HidePlayer
 api-version: 1.16
 authors: [ LuuckA ]
 description: Hide and Show player
+depend: [ LCore ]
 softdepend: [ PlaceholderAPI ]
 libraries:
   - com.zaxxer:HikariCP:${libs.hikaricp}

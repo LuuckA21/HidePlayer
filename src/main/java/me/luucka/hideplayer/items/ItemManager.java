@@ -42,9 +42,11 @@ public class ItemManager {
             itemBuilder = new ItemBuilder(Material.matchMaterial(sMaterial));
         }
 
-        itemBuilder.setDisplayName(ColorTranslate.translate(HidePlayer.getPlugin().getConfig().getString("item." + type + ".name")));
-        itemBuilder.setLore((ColorTranslate.translate(HidePlayer.getPlugin().getConfig().getString("item." + type + ".lore"))));
-        itemBuilder.setPersistentDataContainer(HidePlayer.getPlugin(), "status", type.toUpperCase());
+        itemBuilder
+                .setDisplayName(ColorTranslate.translate(HidePlayer.getPlugin().getConfig().getString("item." + type + ".name")))
+                .setLore((ColorTranslate.translate(HidePlayer.getPlugin().getConfig().getString("item." + type + ".lore"))))
+                .setPersistentDataContainer(HidePlayer.getPlugin(), "status", type.toUpperCase())
+                .setUnbreakable(true);
 
         return itemBuilder.toItemStack();
     }

@@ -21,7 +21,7 @@
 
         <!-- Minecraft libs -->
         <libs.placeholderapi>2.10.10</libs.placeholderapi>
-        <libs.lcore>1.4</libs.lcore>
+        <libs.lcore>1.4.1</libs.lcore>
 
         <!-- Database libs -->
         <libs.hikaricp>5.0.0</libs.hikaricp>

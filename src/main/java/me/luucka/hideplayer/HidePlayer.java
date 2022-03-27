@@ -75,7 +75,7 @@ public final class HidePlayer extends JavaPlugin {
         if (getConfig().getBoolean("check-updates")) {
             new PluginVersion(this, 92830).check(id -> {
                 if (id.equalsIgnoreCase(getDescription().getVersion())) {
-                    getLogger().log(Level.INFO, ChatColor.translateAlternateColorCodes('&', "&a&lis up to date!"));
+                    getLogger().log(Level.INFO, ChatColor.translateAlternateColorCodes('&', "&ais up to date!"));
                 } else {
                     getLogger().log(Level.INFO, ChatColor.translateAlternateColorCodes('&', "&cNew version available! v" + id));
                     getLogger().log(Level.INFO, ChatColor.translateAlternateColorCodes('&', "&aDownload: &7https://www.spigotmc.org/resources/hideplayer.92830/"));
@@ -95,7 +95,7 @@ public final class HidePlayer extends JavaPlugin {
     }
 
     private void registerListeners() {
-        getServer().getPluginManager().registerEvents(new PlayerListeners(), this);
+        getServer().getPluginManager().registerEvents(new PlayerListeners(this), this);
     }
 
     private void registerFiles() {

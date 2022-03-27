@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.EquipmentSlot;
@@ -20,35 +21,41 @@ import org.bukkit.persistence.PersistentDataType;
 
 public class PlayerListeners implements Listener {
 
+    private final HidePlayer PLUGIN;
+
+    public PlayerListeners(HidePlayer PLUGIN) {
+        this.PLUGIN = PLUGIN;
+    }
+
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         User user = new User(player);
         user.createUser();
 
-        if (HidePlayer.getPlugin().getConfig().getBoolean("use-visible-status-on-join")) {
+        if (PLUGIN.getConfig().getBoolean("use-visible-status-on-join")) {
             if (user.getVisible()) {
-                if (HidePlayer.getPlugin().getConfig().getBoolean("item.enable")) {
+                if (PLUGIN.getConfig().getBoolean("item.enable")) {
                     user.setShowItem();
                 }
             } else {
                 PlayerVisibilityManager.hidePlayers(player);
-                if (HidePlayer.getPlugin().getConfig().getBoolean("item.enable")) {
+                if (PLUGIN.getConfig().getBoolean("item.enable")) {
                     user.setHideItem();
                 }
             }
         } else {
             user.setVisible(true);
-            if (HidePlayer.getPlugin().getConfig().getBoolean("item.enable")) {
+            if (PLUGIN.getConfig().getBoolean("item.enable")) {
                 user.setShowItem();
             }
         }
 
-        HidePlayer.getPlugin().getServer().getOnlinePlayers().forEach(onlinePlayer -> {
+        PLUGIN.getServer().getOnlinePlayers().forEach(onlinePlayer -> {
             User onlineUser = new User(onlinePlayer);
             if (!onlineUser.getVisible()) {
                 if (!onlineUser.isPlayerInKeepvisibleList(player.getUniqueId())) {
-                    onlinePlayer.hidePlayer(HidePlayer.getPlugin(), player);
+                    onlinePlayer.hidePlayer(PLUGIN, player);
                 }
             }
         });
@@ -65,7 +72,7 @@ public class PlayerListeners implements Listener {
         ItemMeta meta = item.getItemMeta();
         if (meta == null) return;
 
-        NamespacedKey key = new NamespacedKey(HidePlayer.getPlugin(), "status");
+        NamespacedKey key = new NamespacedKey(PLUGIN, "status");
         PersistentDataContainer container = meta.getPersistentDataContainer();
         if (container.has(key, PersistentDataType.STRING)) {
             String sKey = container.get(key, PersistentDataType.STRING);
@@ -74,7 +81,7 @@ public class PlayerListeners implements Listener {
             User user = new User(player);
 
             if (sKey.equals("SHOW")) {
-                if (!HidePlayer.getPlugin().cooldownManager(player)) {
+                if (!PLUGIN.cooldownManager(player)) {
                     return;
                 }
 
@@ -85,7 +92,7 @@ public class PlayerListeners implements Listener {
                     player.getInventory().getItemInMainHand().setItemMeta(ItemManager.hideItem(player).getItemMeta());
                 }
             } else if (sKey.equals("HIDE")) {
-                if (!HidePlayer.getPlugin().cooldownManager(player)) {
+                if (!PLUGIN.cooldownManager(player)) {
                     return;
                 }
 

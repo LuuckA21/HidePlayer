@@ -1,12 +1,12 @@
 package me.luucka.hideplayer.items;
 
+import com.google.common.io.BaseEncoding;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import me.luucka.hideplayer.HidePlayer;
 import me.luucka.lcore.item.ItemBuilder;
 import me.luucka.lcore.utils.ColorTranslate;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.libs.org.apache.commons.codec.binary.Base64;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -60,7 +60,8 @@ public class ItemManager {
 
         SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
         GameProfile profile = new GameProfile(UUID.randomUUID(), null);
-        byte[] encodedData = Base64.encodeBase64(String.format("{textures:{SKIN:{url:\"%s\"}}}", url).getBytes());
+        // old code for custom head: byte[] encodedData = Base64.encodeBase64(String.format("{textures:{SKIN:{url:\"%s\"}}}", url).getBytes());
+        byte[] encodedData = BaseEncoding.base64().encode(String.format("{textures:{SKIN:{url:\"%s\"}}}", url).getBytes()).getBytes();
         profile.getProperties().put("textures", new Property("textures", new String(encodedData)));
         Field profileField = null;
         try {

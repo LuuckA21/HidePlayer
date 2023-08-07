@@ -1,16 +1,12 @@
 storage:
   # [DB type]
   # => mysql        | [Remote] Save the data into Mysql database
-  # => mariadb      | [Remote] Save the data into MariaDB database
-  # => postgresql   | [Remote] Save the data into PostgreSQL database
   # => sqlite       | [File] Save the data into SQLite database
-  # => h2           | [File] Save the data into H2 database (default)
-  # => yaml         | [File] Save the data info .yml file
   type: h2
 
   settings:
 
-    # [Remote DB settings - MySQL / MariaDB / PostgreSQL]
+    # [Remote DB settings - MySQL]
     remote-db:
       host: localhost
       port: 3306
@@ -20,9 +16,6 @@ storage:
 
     # [SQLite settings] (need .db extension)
     sqlite: "hideplayer.db"
-
-    # [H2 settings]
-    h2: "hideplayer"
 
 
 # Item
@@ -43,4 +36,3 @@ item:
 # Other
 use-visible-status-on-join: true
 cooldown: 3 #In second
-check-updates: true

@@ -1,35 +1,12 @@
 name: HidePlayer
 version: ${project.version}
 main: me.luucka.hideplayer.HidePlayer
-api-version: 1.16
+api-version: 1.20
 authors: [ LuuckA ]
 description: Hide and Show player
 softdepend: [ PlaceholderAPI ]
 libraries:
   - com.zaxxer:HikariCP:${libs.hikaricp}
   - mysql:mysql-connector-java:${libs.mysql}
-  - org.mariadb.jdbc:mariadb-java-client:${libs.mariadb}
-  - org.postgresql:postgresql:${libs.postgresql}
   - org.xerial:sqlite-jdbc:${libs.sqlite}
-  - com.h2database:h2:${libs.h2}
-commands:
-  hideplayer:
-    description: Reload plugin
-  hideall:
-    description: Hideall
-  showall:
-    description: Showall
-  keepvisible:
-    description: Keepvisible
-permissions:
-  hideplayer.*:
-    default: op
-    children:
-      hideplayer.reload: true
-      hideplayer.cooldown: true
-  hideplayer.reload:
-    default: false
-    description: Reload plugin
-  hideplayer.cooldown:
-    default: false
-    description: Bypass cooldown
+  - dev.jorel:commandapi-bukkit-shade:${libs.commandapi}

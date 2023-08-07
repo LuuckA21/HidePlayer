@@ -6,31 +6,22 @@
 
     <groupId>me.luucka</groupId>
     <artifactId>HidePlayer</artifactId>
-    <version>1.4.4</version>
+    <version>2.0.0-ALPHA-01</version>
     <packaging>jar</packaging>
 
     <name>HidePlayer</name>
 
     <description>Hide and Show player</description>
     <properties>
-        <java.version>11</java.version>
+        <java.version>17</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <!-- Dev libs -->
-        <libs.lombok>1.18.24</libs.lombok>
-
-        <!-- Minecraft libs -->
-        <libs.placeholderapi>2.11.1</libs.placeholderapi>
-        <libs.lcore>1.4.1</libs.lcore>
-
-        <!-- Database libs -->
+        <libs.lombok>1.18.28</libs.lombok>
         <libs.hikaricp>5.0.1</libs.hikaricp>
-        <libs.mysql>8.0.29</libs.mysql>
-        <libs.mariadb>2.7.5</libs.mariadb>
-        <libs.postgresql>42.3.6</libs.postgresql>
-
-        <libs.sqlite>3.36.0.3</libs.sqlite>
-        <libs.h2>1.4.200</libs.h2>
+        <libs.mysql>8.1.0</libs.mysql>
+        <libs.sqlite>3.42.0.0</libs.sqlite>
+        <libs.commandapi>9.0.3</libs.commandapi>
+        <libs.placeholderapi>2.11.3</libs.placeholderapi>
 
     </properties>
 
@@ -39,7 +30,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>3.11.0</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
@@ -48,7 +39,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.4</version>
+                <version>3.5.0</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -72,7 +63,7 @@
 
     <repositories>
         <repository>
-            <id>spigotmc-repo</id>
+            <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
         <repository>
@@ -83,17 +74,43 @@
             <id>placeholderapi</id>
             <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
         </repository>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
     </repositories>
 
     <dependencies>
         <dependency>
             <groupId>org.spigotmc</groupId>
-            <artifactId>spigot</artifactId>
-            <version>1.17.1-R0.1-SNAPSHOT</version>
+            <artifactId>spigot-api</artifactId>
+            <version>1.20.1-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${libs.lombok}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>${libs.hikaricp}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <version>${libs.mysql}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.xerial</groupId>
+            <artifactId>sqlite-jdbc</artifactId>
+            <version>${libs.sqlite}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>dev.jorel</groupId>
+            <artifactId>commandapi-bukkit-shade</artifactId>
+            <version>${libs.commandapi}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -102,57 +119,6 @@
             <version>${libs.placeholderapi}</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>com.github.LuuckA21</groupId>
-            <artifactId>LCore</artifactId>
-            <version>${libs.lcore}</version>
-        </dependency>
 
-        <!-- Database -->
-        <dependency>
-            <groupId>com.zaxxer</groupId>
-            <artifactId>HikariCP</artifactId>
-            <version>${libs.hikaricp}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>${libs.mysql}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mariadb.jdbc</groupId>
-            <artifactId>mariadb-java-client</artifactId>
-            <version>${libs.mariadb}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>${libs.postgresql}</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.xerial</groupId>
-            <artifactId>sqlite-jdbc</artifactId>
-            <version>${libs.sqlite}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>${libs.h2}</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- Dev -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${libs.lombok}</version>
-            <scope>provided</scope>
-        </dependency>
     </dependencies>
 </project>

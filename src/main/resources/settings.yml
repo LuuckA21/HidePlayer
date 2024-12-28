@@ -1,0 +1,102 @@
+# !-----------------------------------------------------------------------------------------------!
+#                       Welcome to the main configuration of ${project.name}
+# !-----------------------------------------------------------------------------------------------!
+#
+#    This is the main plugin's settings class. You can use SimpleSettings to load values from it,
+#    and update it automatically.
+#
+#    For support and documentation, please visit:
+#    - https://github.com/${author}/${project.name}/wiki
+#
+# !-----------------------------------------------------------------------------------------------!
+#
+#    1) COLOR CODES are supported with the '&' character.
+#       - For usage, see http://minecraftwiki.net/wiki/Formatting_codes
+#       - When you use them, place quotes around the message like this: "Hello &cworld."
+#       - To use HEX colors, use #123456 syntax: "Hello #123456world."
+#
+#    2) TO HIDE any message, set it to 'none'.
+#
+#    3) For UNICODE CHARACTERS (smileys, symbols, ..), save the file in UTF-8 encoding. See
+#       - https://github.com/${author}/${project.name}/wiki/Use-Right-Encoding
+#
+# !-----------------------------------------------------------------------------------------------!
+
+# -------------------------------------------------------------------------------------------------
+# Storage settings
+# -------------------------------------------------------------------------------------------------
+Storage:
+  # [DB type]
+  # => mysql        | [Remote] Save the data into Mysql database
+  # => mariadb      | [Remote] Save the data into MariaDB database
+  # => sqlite       | [File] Save the data into SQLite database (default)
+  Type: sqlite
+
+  # [Database settings - MySQL / MariaDB]
+  Settings:
+    Host: localhost
+    Port: 3306
+    Database: hideplayer
+    Username: root
+    Password: ""
+    Sqlite_File: "hideplayer"
+
+# -------------------------------------------------------------------------------------------------
+# Items setting. Show and Hide items material, name, lore and custom head
+# -------------------------------------------------------------------------------------------------
+Item:
+  Slot: 6
+  Show:
+    Material: LIME_DYE
+    Name: "&7Players: &aVisible &7(Right-Click)"
+    Lore: "&7Right-Click to toggle player visibility!"
+    Custom_Head_Value: "" #Leave empty for player personal head
+  Hide:
+    Material: GRAY_DYE
+    Name: "&7Players: &cHidden &7(Right-Click)"
+    Lore: "&7Right-Click to toggle player visibility!"
+    Custom_Head_Value: "" #Leave empty for player personal head
+
+# -------------------------------------------------------------------------------------------------
+# Cooldown before use again the item to show/hide players
+# -------------------------------------------------------------------------------------------------
+Cooldown: 3
+
+# -------------------------------------------------------------------------------------------------
+# The formats used in the {date}.
+#
+# See the link below to learn how to edit the date format:
+# https://docs.oracle.com/javase/8/docs/api/java/text/SimpleDateFormat.html
+# -------------------------------------------------------------------------------------------------
+Date_Format: "dd.MM.yyyy HH:mm:ss"
+
+# -------------------------------------------------------------------------------------------------
+# What language should we use for messages? If it exists, the language file will be copied
+# to your messages/ folder where you can edit it.
+# -------------------------------------------------------------------------------------------------
+Locale: en
+
+# -------------------------------------------------------------------------------------------------
+# The prefix used in front of most chat or console messages. You can manually use it with
+# {plugin_prefix} variable anywhere.
+# -------------------------------------------------------------------------------------------------
+Prefix: "&8[&a${project.name}&8]&7"
+
+# -------------------------------------------------------------------------------------------------
+# Time of some plugin's operations is measured. You can also use the LagCatcher class to invoke
+# this feature. We log a console message if an operation takes over the time below (milliseconds).
+# Set to -1 to disable.
+# -------------------------------------------------------------------------------------------------
+Log_Lag_Over_Milis: 100
+
+# -------------------------------------------------------------------------------------------------
+# List of section names that will print informative messages about this plugin's features.
+# The Debugger class utilizes this key and will only print messages for sections enabled below.
+# -------------------------------------------------------------------------------------------------
+Debug: [ ]
+
+# -------------------------------------------------------------------------------------------------
+# Do not change this value, otherwise it will corrupt your plugin installation!
+# NB: Don't forget to keep this up-to-date with the getConfigVersion method in your Settings class.
+# -------------------------------------------------------------------------------------------------
+Version: 1

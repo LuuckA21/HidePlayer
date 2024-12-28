@@ -1,0 +1,145 @@
+# !-----------------------------------------------------------------------------------------------!
+#                              Welcome to the localization file.
+# !-----------------------------------------------------------------------------------------------!
+#
+#   The localization/ folder stores various localization files. Use the suggested naming
+#   convention message_LANGUAGE.yml and then the "SimpleLocalization" or the "Lang" class to
+#   use this file.
+#
+#   1) COLOR CODES are supported with the '&' character.
+#      - For usage, see http://minecraftwiki.net/wiki/Formatting_codes
+#      - When you use them, place quotes around the message like this: "Hello &cworld."
+#       - To use HEX colors, use #123456 syntax: "Hello #123456world."
+#
+#   2) TO HIDE any message, set it to 'none'.
+#
+#   3) For UNICODE CHARACTERS (smileys, symbols, ..), save the file in UTF-8 encoding. See
+#      - https://github.com/${author}/${project.name}/wiki/Use-Right-Encoding
+#
+# !-----------------------------------------------------------------------------------------------!
+
+# -------------------------------------------------------------------------------------------------
+# Messages related to commands
+# -------------------------------------------------------------------------------------------------
+Commands:
+  # The message shown when there is a fatal error running this command
+  Error: "&4&lOups! &cThe command failed :( Check the console and report the error."
+
+  # The message shown when player has no permissions to view ANY subcommands in group command.
+  Header_No_Subcommands: "&cThere are no arguments for this command."
+  Header_No_Subcommands_Permission: "&cYou don't have permissions to view any subcommands."
+
+  # The primary color shown in the ----- COMMAND ----- header
+  Header_Color: GOLD
+
+  # The secondary color shown in the ----- COMMAND ----- header
+  Header_Secondary_Color: RED
+
+  # The format of the header
+  Header_Format: "&r\n{theme_color}&m<center>&r{theme_color} {title} &m\n&r"
+
+  # The center character of the format
+  # Must be exactly one letter
+  Header_Center_Letter: "-"
+
+  # The padding of the header
+  Header_Center_Padding: 130
+
+  # Key for when plugin is reloading or is disabled
+  Reloading: "reloading"
+  Disabled: "disabled"
+
+  # The message shown when plugin is reloading or was disabled and player attempts to run command
+  Use_While_Null: "&cCannot use this command while the plugin is {state}."
+
+  # The message at "No_Console" key shown when console is denied executing a command.
+  No_Console: "&cYou may only use this command as a player."
+
+  # The message shown when there is a fatal error running this command
+  Cooldown_Wait: "&cWait {duration} second(s) before using this item again."
+
+  # The authors label
+  Label_Authors: "Made by"
+
+  # The description label
+  Label_Description: "&c&lDescription:"
+
+  # The optional arguments label
+  Label_Optional_Args: "optional arguments"
+
+  # The required arguments label
+  Label_Required_Args: "required arguments"
+
+  # The usage label
+  Label_Usage: "&cUsage:"
+
+  # The help for label
+  Label_Help_For: "Help for /{label}"
+
+  # The label shown when building subcommands
+  Label_Subcommand_Description: " &f/{label} {sublabel} {usage+}{dash+}{description}"
+
+  # The keys below are shown as hover tooltip on / command help menu.
+  Help_Tooltip_Description: "&7Description: &f{description}"
+  Help_Tooltip_Permission: "&7Permission: &f{permission}"
+  Help_Tooltip_Usage: "&7Usage: &f"
+
+  # The keys below are used in the /takemeup reload command
+  Reload_Description: "Reload the configuration."
+  Reload_Started: "Reloading plugin's data, please wait.."
+  Reload_Success: "&6{plugin_name} {plugin_version} has been reloaded."
+  Reload_Fail: "&4Oups, &creloading failed! See the console for more information. Error: {error}"
+  Reload_File_Load_Error: "&4Oups, &cthere was a problem loading files from your disk! See the console for more information. {plugin_name} has not been reloaded."
+
+  # The keys below are used in the /takemeup debug command
+  Debug_Description: "ZIP your settings for reporting bugs."
+  Debug_Preparing: "&6Preparing debug log..."
+  Debug_Success: "&2Successfuly copied {amount} file(s) to debug.zip. Your sensitive MySQL information has been removed from yml files. Please upload it via ufile.io and send it to us for review."
+  Debug_Copy_Fail: "&cCopying files failed on file {file} and it was stopped. See console for more information."
+  Debug_Zip_Fail: "&cCreating a ZIP of your files failed, see console for more information. Please ZIP debug/ folder and send it to us via ufile.io manually."
+
+# -------------------------------------------------------------------------------------------------
+# Words for both singular and plural form. Separate these two forms with ", "
+# -------------------------------------------------------------------------------------------------
+Cases:
+  Second: second, seconds
+  Minute: minute, minutes
+  Hour: hour, hours
+  Day: day, days
+  Week: week, weeks
+  Month: month, months
+  Year: year, years
+
+# -------------------------------------------------------------------------------------------------
+# Different prefixes you can use by calling {prefix_<type>} such as {prefix_info}
+# -------------------------------------------------------------------------------------------------
+Prefix:
+  Info: "&8&l[&9&li&8&l]&7"
+  Success: "&8&l[&2&l!&8&l]&7"
+  Warn: "&8&l[&6&l!&8&l]&6"
+  Error: "&8&l[&4&lX&8&l]&c"
+  Question: "&8&l[&a&l?&8&l]&7"
+  Announce: "&8&l[&5&l!&8&l]&d"
+
+# -------------------------------------------------------------------------------------------------
+# Miscellaneous
+# -------------------------------------------------------------------------------------------------
+None: "None"
+Server_Prefix: "[Server]"
+Console_Name: "Console"
+
+# -------------------------------------------------------------------------------------------------
+# Database related messages
+# -------------------------------------------------------------------------------------------------
+Data_Missing: "&c{name} lacks database information! Please only create {type} in-game! Skipping.."
+Data_Loading: "Database is currently loading data, please wait..."
+
+# -------------------------------------------------------------------------------------------------
+# Messages shown when player runs a command he lacks permission for
+# -------------------------------------------------------------------------------------------------
+No_Permission: "&cNo permission: {permission}"
+
+# -------------------------------------------------------------------------------------------------
+# Internal versioning number
+# -------------------------------------------------------------------------------------------------
+Version: 1

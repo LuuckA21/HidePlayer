@@ -1,94 +1,117 @@
 package me.luucka.hideplayer.listener;
 
+import lombok.Getter;
+import me.luucka.hideplayer.cache.PlayerCache;
+import me.luucka.hideplayer.database.DatabaseManager;
+import me.luucka.hideplayer.item.HideItem;
+import me.luucka.hideplayer.item.ShowItem;
+import me.luucka.hideplayer.manager.CooldownManager;
+import me.luucka.hideplayer.manager.VisibilityManager;
+import me.luucka.hideplayer.settings.HideSettings;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerSwapHandItemsEvent;
+import org.bukkit.inventory.ItemStack;
+import org.mineacademy.fo.Common;
+import org.mineacademy.fo.annotation.AutoRegister;
+import org.mineacademy.fo.plugin.SimplePlugin;
+import org.mineacademy.fo.remain.Remain;
 
-public class PlayerListener implements Listener {
+import java.util.ArrayList;
+import java.util.Collection;
 
-//    private final HidePlayer PLUGIN;
-//
-//    public PlayerListener(HidePlayer PLUGIN) {
-//        this.PLUGIN = PLUGIN;
-//    }
-//
-//    @EventHandler
-//    public void onJoin(PlayerJoinEvent event) {
-//        Player player = event.getPlayer();
-//        User user = new User(player);
-//        user.createUser();
-//
-//        if (PLUGIN.getConfig().getBoolean("use-visible-status-on-join")) {
-//            if (user.getVisible()) {
-//                if (PLUGIN.getConfig().getBoolean("item.enable")) {
-//                    user.setShowItem();
-//                }
-//            } else {
-//                PlayerVisibilityManager.hidePlayers(player);
-//                if (PLUGIN.getConfig().getBoolean("item.enable")) {
-//                    user.setHideItem();
-//                }
-//            }
-//        } else {
-//            user.setVisible(true);
-//            if (PLUGIN.getConfig().getBoolean("item.enable")) {
-//                user.setShowItem();
-//            }
-//        }
-//
-//        PLUGIN.getServer().getOnlinePlayers().forEach(onlinePlayer -> {
-//            User onlineUser = new User(onlinePlayer);
-//            if (!onlineUser.getVisible()) {
-//                if (!onlineUser.isPlayerInKeepvisibleList(player.getUniqueId())) {
-//                    onlinePlayer.hidePlayer(PLUGIN, player);
-//                }
-//            }
-//        });
-//    }
-//
-//    @EventHandler
-//    public void onInteract(PlayerInteractEvent event) {
-//        if (event.getHand() == EquipmentSlot.HAND && event.getAction() == Action.RIGHT_CLICK_AIR)
-//            interact(event.getPlayer());
-//        if (event.getHand() == EquipmentSlot.HAND && event.getAction() == Action.RIGHT_CLICK_BLOCK)
-//            interact(event.getPlayer());
-//    }
-//
-//    private void interact(Player player) {
-//        ItemStack item = player.getInventory().getItemInMainHand();
-//        ItemMeta meta = item.getItemMeta();
-//        if (meta == null) return;
-//
-//        NamespacedKey key = new NamespacedKey(PLUGIN, "status");
-//        PersistentDataContainer container = meta.getPersistentDataContainer();
-//        if (container.has(key, PersistentDataType.STRING)) {
-//            String sKey = container.get(key, PersistentDataType.STRING);
-//            if (sKey == null) return;
-//
-//            User user = new User(player);
-//
-//            if (sKey.equals("SHOW")) {
-//                if (!PLUGIN.cooldownManager(player)) {
-//                    return;
-//                }
-//
-//                if (user.getVisible()) {
-//                    PlayerVisibilityManager.hidePlayers(user.getPlayer());
-//                    user.getPlayer().sendMessage(Chat.message(HidePlayer.yamlManager.cfg("messages").getString("hideall")));
-//                    player.getInventory().getItemInMainHand().setType(ItemManager.hideItem(player).getType());
-//                    player.getInventory().getItemInMainHand().setItemMeta(ItemManager.hideItem(player).getItemMeta());
-//                }
-//            } else if (sKey.equals("HIDE")) {
-//                if (!PLUGIN.cooldownManager(player)) {
-//                    return;
-//                }
-//
-//                if (!user.getVisible()) {
-//                    PlayerVisibilityManager.showPlayers(user.getPlayer());
-//                    user.getPlayer().sendMessage(Chat.message(HidePlayer.yamlManager.cfg("messages").getString("showall")));
-//                    player.getInventory().getItemInMainHand().setType(ItemManager.showItem(player).getType());
-//                    player.getInventory().getItemInMainHand().setItemMeta(ItemManager.showItem(player).getItemMeta());
-//                }
-//            }
-//        }
-//    }
+@AutoRegister
+public final class PlayerListener implements Listener {
 
+	@Getter
+	private static final PlayerListener instance = new PlayerListener();
+
+	private PlayerListener() {
+		try {
+			Class.forName("org.bukkit.event.player.PlayerSwapHandItemsEvent");
+			Common.registerEvents(new SwapHandListener());
+		} catch (final ClassNotFoundException ignored) {
+		}
+	}
+
+	@EventHandler
+	public void onJoin(final PlayerJoinEvent event) {
+		Player player = event.getPlayer();
+
+		// Load cache from DB
+		DatabaseManager.getInstance().loadCache(player, cache -> {
+			PlayerCache.addCache(cache);
+
+			if (cache.isVisible()) {
+				ShowItem.getInstance().give(player, HideSettings.Item.SLOT);
+			} else {
+				VisibilityManager.hidePlayers(player);
+			}
+		});
+
+		Collection<Player> players = new ArrayList<>(Remain.getOnlinePlayers());
+		players.remove(player);
+		for (Player onlinePlayer : players) {
+			PlayerCache.getFromId(onlinePlayer.getUniqueId()).ifPresent(
+					cache -> {
+						if (!cache.isVisible()) {
+							onlinePlayer.hidePlayer(SimplePlugin.getInstance(), player);
+						}
+					}
+			);
+		}
+	}
+
+	@EventHandler
+	public void onQuit(final PlayerQuitEvent event) {
+		Player player = event.getPlayer();
+		CooldownManager.clearCooldown(player.getUniqueId());
+		PlayerCache.removeFromId(player.getUniqueId());
+	}
+
+	@EventHandler
+	public void onInventoryClick(final InventoryClickEvent event) {
+		if (checkTools(event.getCurrentItem())) {
+			event.setCancelled(true);
+		}
+	}
+
+	@EventHandler
+	public void onDrop(final PlayerDropItemEvent event) {
+		if (checkTools(event.getItemDrop().getItemStack())) {
+			event.setCancelled(true);
+		}
+	}
+
+	private static boolean checkTools(ItemStack item) {
+		return ShowItem.getInstance().isTool(item) || HideItem.getInstance().isTool(item);
+	}
+
+	static class SwapHandListener implements Listener {
+
+		@EventHandler
+		public void onSwapHand(final PlayerSwapHandItemsEvent event) {
+			final ItemStack mainHand = event.getMainHandItem();
+			final ItemStack offHand = event.getOffHandItem();
+
+			if (mainHand == null && offHand == null) return;
+
+			boolean isMainHand = false;
+			if (mainHand != null) {
+				if (checkTools(mainHand)) isMainHand = true;
+			}
+
+			boolean isOffHand = false;
+			if (offHand != null) {
+				if (checkTools(offHand)) isOffHand = true;
+			}
+
+			if (isMainHand || isOffHand) event.setCancelled(true);
+		}
+	}
 }

@@ -1,12 +1,5 @@
-name: HidePlayer
+name: ${project.name}
 version: ${project.version}
-main: me.luucka.hideplayer.HidePlayer
-api-version: 1.20
-authors: [ LuuckA ]
-description: Hide and Show player
-softdepend: [ PlaceholderAPI ]
-libraries:
-  - com.zaxxer:HikariCP:${libs.hikaricp}
-  - mysql:mysql-connector-java:${libs.mysql}
-  - org.xerial:sqlite-jdbc:${libs.sqlite}
-  - dev.jorel:commandapi-bukkit-shade:${libs.commandapi}
+main: ${main.class}
+author: ${author}
+api-version: 1.13

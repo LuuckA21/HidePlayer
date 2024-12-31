@@ -96,19 +96,19 @@ public final class HidePlugin extends SimplePlugin {
 	}
 
 	private void loadHikari() {
-		loadLibrary("com{}zaxxer", "HikariCP", "5.1.0");
+		loadLibrary("com.zaxxer", "HikariCP", "5.1.0");
 	}
 
 	private void loadMariaDb() {
-		loadLibrary("org{}mariadb{}jdbc", "mariadb-java-client", "3.5.1");
+		loadLibrary("org.mariadb.jdbc", "mariadb-java-client", "3.5.1");
 	}
 
 	private void loadMysql() {
-		loadLibrary("com{}mysql", "mysql-connector-j", "9.1.0");
+		loadLibrary("com.mysql", "mysql-connector-j", "9.1.0");
 	}
 
 	private void loadSqlite() {
-		loadLibrary("org{}xerial", "sqlite-jdbc", "3.47.1.0");
+		loadLibrary("org.xerial", "sqlite-jdbc", "3.47.1.0");
 	}
 
 	private void loadLibrary(final String groupId, final String artifactId, final String version) {

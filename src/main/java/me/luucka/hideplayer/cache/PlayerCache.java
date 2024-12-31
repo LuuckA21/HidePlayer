@@ -31,7 +31,7 @@ public class PlayerCache {
 		saveCache();
 	}
 
-	private void saveCache() {
+	public void saveCache() {
 		DatabaseManager.getInstance().saveCache(this);
 	}
 
@@ -61,9 +61,7 @@ public class PlayerCache {
 	}
 
 	public static PlayerCache fromPlayer(Player player) {
-		PlayerCache cache = new PlayerCache(player.getUniqueId(), player.getName(), true, 0);
-		cache.saveCache();
-		return cache;
+		return new PlayerCache(player.getUniqueId(), player.getName(), true, 0);
 	}
 
 	@Override

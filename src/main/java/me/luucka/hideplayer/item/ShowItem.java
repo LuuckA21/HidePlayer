@@ -42,7 +42,7 @@ public final class ShowItem extends Tool {
 		if (event.getAction() != Action.RIGHT_CLICK_AIR) return;
 
 		Player player = event.getPlayer();
-		VisibilityManager.hidePlayers(player);
+		VisibilityManager.getInstance().updateVisibility(player, false);
 	}
 
 	@Override

@@ -1,5 +1,8 @@
 package me.luucka.hideplayer.manager;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import me.luucka.hideplayer.HidePlugin;
 import me.luucka.hideplayer.cache.PlayerCache;
 import me.luucka.hideplayer.database.DatabaseManager;
@@ -15,10 +18,14 @@ import org.mineacademy.fo.settings.SimpleLocalization;
 
 import java.util.Optional;
 
-public class VisibilityManager {
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class VisibilityManager {
 
-	public static void showPlayers(Player player) {
-		Debugger.debug("show_players", "Show players from: " + player.getName());
+	@Getter
+	private static VisibilityManager instance = new VisibilityManager();
+
+	public void updateVisibility(final Player player, final boolean show) {
+		// Handle the cooldown
 		if (CooldownManager.handleCooldown(player)) {
 			Messenger.error(
 					player,
@@ -31,56 +38,38 @@ public class VisibilityManager {
 			return;
 		}
 
-		Remain.getOnlinePlayers().forEach(onlinePlayer -> player.showPlayer(HidePlugin.getInstance(), onlinePlayer));
+		if (show) {
+			showAllPlayers(player);
+			ShowItem.getInstance().give(player, HideSettings.Item.SLOT);
+		} else {
+			hideAllPlayers(player);
+			HideItem.getInstance().give(player, HideSettings.Item.SLOT);
+		}
 
+		// Get and update the cache
 		Optional<PlayerCache> optionalPlayerCache = PlayerCache.getFromId(player.getUniqueId());
 		if (optionalPlayerCache.isPresent()) {
 			PlayerCache playerCache = optionalPlayerCache.get();
 			Debugger.debug("cache", "Cache present: " + playerCache);
-			playerCache.updateCache(player, true);
+			playerCache.updateCache(player, show);
 		} else {
+			// Need to retrive data from DB or create a new cache
 			Debugger.debug("cache", "Cache not present");
 			DatabaseManager.getInstance().loadCache(player, cache -> {
-				cache.updateCache(player, true);
+				cache.updateCache(player, show);
 				PlayerCache.addCache(cache);
 			});
 		}
-
-		ShowItem.getInstance().give(player, HideSettings.Item.SLOT);
 	}
 
-	public static void hidePlayers(Player player) {
-		Debugger.debug("hide_players", "Hide players from: " + player.getName());
-		if (CooldownManager.handleCooldown(player)) {
-			Messenger.error(
-					player,
-					SimpleLocalization.Commands.COOLDOWN_WAIT
-							.replace(
-									"{duration}",
-									"" + CooldownManager.getRemainingCooldown(player.getUniqueId())
-							)
-			);
-			return;
-		}
+	public void showAllPlayers(Player player) {
+		Remain.getOnlinePlayers().forEach(onlinePlayer -> player.showPlayer(HidePlugin.getInstance(), onlinePlayer));
+	}
 
+	public void hideAllPlayers(Player player) {
 		Remain.getOnlinePlayers().forEach(onlinePlayer -> player.hidePlayer(HidePlugin.getInstance(), onlinePlayer));
 		Hooker.getPartyPlayers(player).forEach(uuid -> {
 			player.showPlayer(HidePlugin.getInstance(), Remain.getPlayerByUUID(uuid));
 		});
-
-		Optional<PlayerCache> optionalPlayerCache = PlayerCache.getFromId(player.getUniqueId());
-		if (optionalPlayerCache.isPresent()) {
-			PlayerCache playerCache = optionalPlayerCache.get();
-			Debugger.debug("cache", "Cache present: " + playerCache);
-			playerCache.updateCache(player, false);
-		} else {
-			Debugger.debug("cache", "Cache not present");
-			DatabaseManager.getInstance().loadCache(player, cache -> {
-				cache.updateCache(player, false);
-				PlayerCache.addCache(cache);
-			});
-		}
-
-		HideItem.getInstance().give(player, HideSettings.Item.SLOT);
 	}
 }

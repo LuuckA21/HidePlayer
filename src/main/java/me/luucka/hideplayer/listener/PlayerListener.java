@@ -45,12 +45,14 @@ public final class PlayerListener implements Listener {
 
 		// Load cache from DB
 		DatabaseManager.getInstance().loadCache(player, cache -> {
+			cache.saveCache();
 			PlayerCache.addCache(cache);
 
 			if (cache.isVisible()) {
 				ShowItem.getInstance().give(player, HideSettings.Item.SLOT);
 			} else {
-				VisibilityManager.hidePlayers(player);
+				VisibilityManager.getInstance().hideAllPlayers(player);
+				HideItem.getInstance().give(player, HideSettings.Item.SLOT);
 			}
 		});
 

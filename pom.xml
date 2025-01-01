@@ -91,6 +91,10 @@
             <id>AlessioDP</id>
             <url>https://repo.alessiodp.com/releases/</url>
         </repository>
+        <repository>
+            <id>simonsators-repo</id>
+            <url>https://simonsator.de/repo/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -115,6 +119,19 @@
             <groupId>com.alessiodp.parties</groupId>
             <artifactId>parties-api</artifactId>
             <version>3.2.15</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>me.sk8ingduck</groupId>
+            <artifactId>friendsystem</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/FriendSystem-Spigot-API-1.0.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>de.simonsator</groupId>
+            <artifactId>Party-and-Friends-MySQL-Edition-Spigot-API</artifactId>
+            <version>1.6.2-RELEASE</version>
             <scope>provided</scope>
         </dependency>
 

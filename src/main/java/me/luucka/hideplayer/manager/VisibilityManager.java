@@ -68,7 +68,12 @@ public final class VisibilityManager {
 
 	public void hideAllPlayers(Player player) {
 		Remain.getOnlinePlayers().forEach(onlinePlayer -> player.hidePlayer(HidePlugin.getInstance(), onlinePlayer));
-		Hooker.getPartyPlayers(player).forEach(uuid -> {
+
+		Hooker.getPartyMembers(player).forEach(uuid -> {
+			player.showPlayer(HidePlugin.getInstance(), Remain.getPlayerByUUID(uuid));
+		});
+
+		Hooker.getFriends(player).forEach(uuid -> {
 			player.showPlayer(HidePlugin.getInstance(), Remain.getPlayerByUUID(uuid));
 		});
 	}

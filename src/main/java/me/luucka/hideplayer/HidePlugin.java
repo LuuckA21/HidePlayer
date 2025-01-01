@@ -28,11 +28,12 @@ public final class HidePlugin extends SimplePlugin {
 		bukkitLibraryManager = new BukkitLibraryManager(this);
 		bukkitLibraryManager.addMavenCentral();
 		loadDatabase();
-		Hooker.loadDependencies();
 	}
 
 	@Override
 	protected void onReloadablesStart() {
+		Hooker.loadDependencies();
+		
 		Variables.addExpansion(new SimpleExpansion() {
 			@Override
 			protected String onReplace(@NonNull CommandSender sender, String identifier) {

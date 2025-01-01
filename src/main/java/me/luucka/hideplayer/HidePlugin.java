@@ -3,6 +3,7 @@ package me.luucka.hideplayer;
 import lombok.NonNull;
 import me.luucka.hideplayer.cache.PlayerCache;
 import me.luucka.hideplayer.database.DatabaseManager;
+import me.luucka.hideplayer.hook.Hooker;
 import me.luucka.hideplayer.settings.HideSettings;
 import net.byteflux.libby.BukkitLibraryManager;
 import net.byteflux.libby.Library;
@@ -27,6 +28,7 @@ public final class HidePlugin extends SimplePlugin {
 		bukkitLibraryManager = new BukkitLibraryManager(this);
 		bukkitLibraryManager.addMavenCentral();
 		loadDatabase();
+		Hooker.loadDependencies();
 	}
 
 	@Override
